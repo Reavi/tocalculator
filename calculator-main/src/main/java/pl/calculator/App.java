@@ -27,7 +27,8 @@ public class App {
 			a=cal.mul(a,b);
 		} else if (end == 4) {
 			a=cal.div(a,b);
-		} else if( end != 0){
+		}
+		if( end != 0){
 			System.out.println("Wynik : " + a);
 		}
 	}

@@ -1,6 +1,11 @@
 Change Log
 
+0.2.0
+
+Dodanie obslugi pluginów Alpha
+
 0.1.1
+
 Nowy moduł przechowujący interfejs
 
 0.1.0

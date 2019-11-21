@@ -1,5 +1,7 @@
 package pl.calculator;
+import pl.calculator.plugins.LoaderPlugin;
 import pl.calculator.operations.*;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,14 +15,28 @@ public class Calculator{
 	private double pB;
 	private ArrayList<String> operands=new ArrayList<>();
 	private Map<String, Operation> ob=new HashMap<>();
-	public Calculator() {
+	public Calculator() throws Exception {
 		Add add=new Add();
 		Min min=new Min();
 		ob.put(add.getSign(),add);
 		ob.put(min.getSign(),min);
 		operands.add(add.getSign());
 		operands.add(min.getSign());
+		LoaderPlugin lp = new LoaderPlugin();
+		loadPlugins(lp);
+
 	}
+	private void loadPlugins(LoaderPlugin lp) throws Exception {
+		Map<String, Operation> tmp = lp.load();
+		// using for-each loop for iteration over Map.entrySet()
+		for (Map.Entry<String, Operation> entry : tmp.entrySet()) {
+		System.out.println("Key = " + entry.getKey() +
+				", Value = " + entry.getValue());
+		ob.put(entry.getKey(),entry.getValue());
+		operands.add(entry.getValue().getSign());
+		}
+	}
+
 	public void read(String s){
 		sum=0;
 		actualS=s.trim();
@@ -88,7 +104,7 @@ public class Calculator{
 		return actualOperand;
 	}
 	private void work(){
-		Operation c= (Operation) ob.get(this.sign);
+		Operation c= ob.get(this.sign);
 		this.sum=c.action(this.sum,this.pB);
 	}
 }

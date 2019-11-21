@@ -26,5 +26,11 @@
       <version>RELEASE</version>
       <scope>compile</scope>
     </dependency>
+      <dependency>
+          <groupId>pl.calculator</groupId>
+          <artifactId>common</artifactId>
+          <version>1.0-SNAPSHOT</version>
+          <scope>compile</scope>
+      </dependency>
   </dependencies>
 </project>

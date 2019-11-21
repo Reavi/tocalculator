@@ -1,5 +1,5 @@
 package pl.calculator;
-import pl.calculator.sign.*;
+import pl.calculator.operations.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,14 +12,14 @@ public class Calculator{
 	private String sign;
 	private double pB;
 	private ArrayList<String> operands=new ArrayList<>();
-	private Map<String, ICalc> ob=new HashMap<>();
+	private Map<String, Operation> ob=new HashMap<>();
 	public Calculator() {
 		Add add=new Add();
 		Min min=new Min();
-		ob.put(add.sign(),add);
-		ob.put(min.sign(),min);
-		operands.add(add.sign());
-		operands.add(min.sign());
+		ob.put(add.getSign(),add);
+		ob.put(min.getSign(),min);
+		operands.add(add.getSign());
+		operands.add(min.getSign());
 	}
 	public void read(String s){
 		sum=0;
@@ -88,7 +88,7 @@ public class Calculator{
 		return actualOperand;
 	}
 	private void work(){
-		ICalc c= (ICalc) ob.get(this.sign);
+		Operation c= (Operation) ob.get(this.sign);
 		this.sum=c.action(this.sum,this.pB);
 	}
 }

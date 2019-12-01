@@ -30,8 +30,8 @@ public class Calculator{
 		Map<String, Operation> tmp = lp.load();
 		// using for-each loop for iteration over Map.entrySet()
 		for (Map.Entry<String, Operation> entry : tmp.entrySet()) {
-		System.out.println("Key = " + entry.getKey() +
-				", Value = " + entry.getValue());
+		//System.out.println("Key = " + entry.getKey() +
+		//		", Value = " + entry.getValue());
 		ob.put(entry.getKey(),entry.getValue());
 		operands.add(entry.getValue().getSign());
 		}

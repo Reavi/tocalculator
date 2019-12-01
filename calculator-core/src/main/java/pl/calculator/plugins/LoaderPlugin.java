@@ -6,7 +6,6 @@ import pl.calculator.Operation;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
@@ -44,11 +43,13 @@ public class LoaderPlugin {
                     System.out.println(", nazwa klasy: "+constructor.getName()+", znak: "+ic.getSign());
 
                 }
-            } catch (IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException | IOException e) {
+            } catch (IllegalAccessException | InstantiationException| InvocationTargetException | ClassNotFoundException | NoSuchMethodException | IOException e) {
                 e.printStackTrace();
             }catch (IllegalStateException e){
                 System.out.println(" "+e.getMessage());
 
+            } catch (ClassCastException e) {
+                System.out.println("Znalezlismy niepasujacy plugin, \""+file.getName()+"\" zostanie on pominiety");
             }
         }
         return hp;

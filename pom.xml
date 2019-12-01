@@ -54,7 +54,8 @@
           
     
     <module>calculator-main</module>
-      
+      <module>common</module>
+
   </modules>
    
   <properties>

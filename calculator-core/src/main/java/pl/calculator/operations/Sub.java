@@ -2,7 +2,7 @@ package pl.calculator.operations;
 
 import pl.calculator.Operation;
 
-public class Min implements Operation {
+public class Sub implements Operation {
     private String sign="-";
     private int val=0;
 

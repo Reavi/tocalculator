@@ -26,9 +26,8 @@ public class LoaderPlugin {
                 URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls,Thread.currentThread().getContextClassLoader());
                 Class<?> cl = urlClassLoader.loadClass(name);
                 Constructor<?> constructor = cl.getConstructor();
-                System.out.print("Plugin class name: "+constructor.getName());
                 Operation ic = (Operation) constructor.newInstance();
-                System.out.println(", operand: "+ic.getSign());
+                System.out.println("Plugin class name: "+constructor.getName()+", operand: "+ic.getSign());
                 hp.put(ic.getSign(),ic);
             }
         }

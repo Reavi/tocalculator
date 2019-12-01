@@ -1,4 +1,6 @@
 package pl.calculator;
+import pl.calculator.factory.AddFactory;
+import pl.calculator.factory.SubFactory;
 import pl.calculator.plugins.LoaderPlugin;
 import pl.calculator.operations.*;
 
@@ -16,8 +18,8 @@ public class Calculator{
 	private ArrayList<String> operands=new ArrayList<>();
 	private Map<String, Operation> ob=new HashMap<>();
 	public Calculator() throws Exception {
-		Add add=new Add();
-		Min min=new Min();
+		Operation add=new AddFactory().CreateOperation();
+		Operation min=new SubFactory().CreateOperation();
 		ob.put(add.getSign(),add);
 		ob.put(min.getSign(),min);
 		operands.add(add.getSign());
@@ -28,10 +30,7 @@ public class Calculator{
 	}
 	private void loadPlugins(LoaderPlugin lp) throws Exception {
 		Map<String, Operation> tmp = lp.load();
-		// using for-each loop for iteration over Map.entrySet()
 		for (Map.Entry<String, Operation> entry : tmp.entrySet()) {
-		//System.out.println("Key = " + entry.getKey() +
-		//		", Value = " + entry.getValue());
 		ob.put(entry.getKey(),entry.getValue());
 		operands.add(entry.getValue().getSign());
 		}
@@ -48,19 +47,6 @@ public class Calculator{
 		this.sum=Double.parseDouble(actualS.substring(0,actualOperand));//pierwsza liczba
 		actualS=actualS.substring(actualOperand+1);
 		while(!actualS.isEmpty()){
-			/*
-			actualOperand=getIndexOperand();//miejsce operanda
-			if(actualOperand==-1){
-				break;
-			}
-			this.sign=actualS.substring(actualOperand,actualOperand+1);//pobierz operand
-			//System.out.println(this.sign);
-			//System.out.println(actualOperand);
-			this.pA=Double.parseDouble(actualS.substring(0,actualOperand));//pierwsza liczba
-			//System.out.println(this.pA);
-			actualS=actualS.substring(actualOperand+1);
-			//System.out.println(this.actualS);
-			 */
 			actualOperand=getIndexOperand();//znajdz drugi operand
 			if(actualOperand==-1){
 				this.pB=Double.parseDouble(actualS);

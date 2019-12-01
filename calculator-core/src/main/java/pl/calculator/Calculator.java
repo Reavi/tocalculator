@@ -11,11 +11,12 @@ import java.util.Map;
 public class Calculator{
 	private double sum=0;
 	private String actualS;
-	private double pA;
 	private String sign;
 	private double pB;
 	private ArrayList<String> operands=new ArrayList<>();
 	private Map<String, Operation> ob=new HashMap<>();
+
+
 	public Calculator() throws Exception {
 		ArrayList<Operation> op = new ArrayList<>();
 		op.add(new AddFactory().CreateOperation());
@@ -28,7 +29,7 @@ public class Calculator{
 			operands.add(o.getSign());
 		}
 
-		LoaderPlugin lp = new LoaderPlugin();
+		LoaderPlugin lp = new LoaderPlugin(operands);
 		loadPlugins(lp);
 
 	}

@@ -12,13 +12,13 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class LoaderPlugin {
-    private ArrayList<URL[]> urls=new ArrayList<>();
-    public LoaderPlugin() {
+    private ArrayList<String> op;
+    public LoaderPlugin(ArrayList<String> o) {
+        op=new ArrayList<>(o);
     }
     public Map<String,Operation> load() throws Exception{
         File [] listOfFiles=loadFromFile();
         Map<String,Operation> hp=new HashMap<>();
-
         for(File file : listOfFiles){
             ArrayList<String> names=getNamesClass(file);
             for(String name : names){
@@ -27,8 +27,21 @@ public class LoaderPlugin {
                 Class<?> cl = urlClassLoader.loadClass(name);
                 Constructor<?> constructor = cl.getConstructor();
                 Operation ic = (Operation) constructor.newInstance();
-                System.out.println("Plugin class name: "+constructor.getName()+", operand: "+ic.getSign());
-                hp.put(ic.getSign(),ic);
+
+                try {
+                    for(String sign: op){
+                        if(sign.equals(ic.getSign())){
+                            throw new IllegalStateException("Istnieje juz taki znak");
+                        }
+                    }
+                    System.out.print("Pomyślnie załadowano klasę z pluginu: "+file.getName());
+                    hp.put(ic.getSign(),ic);
+                }catch (Exception e){
+                    System.out.print(e.getMessage()+"! Nie wczytano klasy z: "+file.getName());
+
+                }
+                System.out.println(", nazwa klasy: "+constructor.getName()+", znak: "+ic.getSign());
+
             }
         }
         return hp;

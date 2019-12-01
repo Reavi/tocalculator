@@ -1,8 +1,7 @@
 package pl.calculator;
-import pl.calculator.factory.AddFactory;
-import pl.calculator.factory.SubFactory;
+import pl.calculator.factory.*;
 import pl.calculator.plugins.LoaderPlugin;
-import pl.calculator.operations.*;
+
 
 
 import java.util.ArrayList;
@@ -18,12 +17,17 @@ public class Calculator{
 	private ArrayList<String> operands=new ArrayList<>();
 	private Map<String, Operation> ob=new HashMap<>();
 	public Calculator() throws Exception {
-		Operation add=new AddFactory().CreateOperation();
-		Operation min=new SubFactory().CreateOperation();
-		ob.put(add.getSign(),add);
-		ob.put(min.getSign(),min);
-		operands.add(add.getSign());
-		operands.add(min.getSign());
+		ArrayList<Operation> op = new ArrayList<>();
+		op.add(new AddFactory().CreateOperation());
+		op.add(new SubFactory().CreateOperation());
+		op.add(new MulFactory().CreateOperation());
+		op.add(new DivFactory().CreateOperation());
+
+		for(Operation o : op){
+			ob.put(o.getSign(),o);
+			operands.add(o.getSign());
+		}
+
 		LoaderPlugin lp = new LoaderPlugin();
 		loadPlugins(lp);
 

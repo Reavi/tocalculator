@@ -1,11 +1,11 @@
 package pl.calculator;
 import pl.calculator.factory.*;
+import pl.calculator.plugins.LoadedPlugins;
 import pl.calculator.plugins.LoaderPlugin;
-
+import pl.calculator.plugins.Plugin;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Calculator{
@@ -13,9 +13,8 @@ public class Calculator{
 	private String actualS;
 	private String sign;
 	private double pB;
-	private ArrayList<String> operands=new ArrayList<>();
-	private Map<String, Operation> ob=new HashMap<>();
-
+	private LoadedPlugins lps = new LoadedPlugins();
+	private Plugin pl = new Plugin();
 
 	public Calculator() throws Exception {
 		ArrayList<Operation> op = new ArrayList<>();
@@ -23,25 +22,26 @@ public class Calculator{
 		op.add(new SubFactory().CreateOperation());
 		op.add(new MulFactory().CreateOperation());
 		op.add(new DivFactory().CreateOperation());
-
+		pl.attach(lps);
 		for(Operation o : op){
-			ob.put(o.getSign(),o);
-			operands.add(o.getSign());
+			lps.addOb(o);
 		}
 
-		LoaderPlugin lp = new LoaderPlugin(operands);
+		LoaderPlugin lp = new LoaderPlugin(lps);
 		loadPlugins(lp);
 
 	}
 	private void loadPlugins(LoaderPlugin lp) throws Exception {
 		Map<String, Operation> tmp = lp.load();
 		for (Map.Entry<String, Operation> entry : tmp.entrySet()) {
-		ob.put(entry.getKey(),entry.getValue());
-		operands.add(entry.getValue().getSign());
+		lps.addOb(entry.getValue());
 		}
 	}
 
 	public void read(String s){
+		pl.check();
+
+
 		sum=0;
 		actualS=s.trim();
 		int actualOperand=getIndexOperand();//miejsce operanda
@@ -76,9 +76,9 @@ public class Calculator{
 	private int getIndexOperand(){
 		int actualOperand=-1;
 		int i=0;
-		int length=operands.size();
+		int length=lps.getSizeOperand();
 		while(i<length){
-			actualOperand=actualS.indexOf(operands.get(i));
+			actualOperand=actualS.indexOf(lps.getOp(i));
 			i++;
 			if(actualOperand!=-1){
 				break;
@@ -87,7 +87,7 @@ public class Calculator{
 		if(actualOperand==-1){
 			return actualOperand;
 		}
-		for(String op : operands){
+		for(String op : lps.getOperands()){
 			if(actualS.indexOf(op)<actualOperand && actualS.contains(op)){
 				actualOperand=actualS.indexOf(op);
 			}
@@ -95,7 +95,7 @@ public class Calculator{
 		return actualOperand;
 	}
 	private void work(){
-		Operation c= ob.get(this.sign);
+		Operation c=lps.getObOne(this.sign);
 		this.sum=c.action(this.sum,this.pB);
 	}
 }

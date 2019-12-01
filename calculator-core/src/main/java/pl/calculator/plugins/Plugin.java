@@ -38,9 +38,6 @@ public class Plugin implements Observable {
                 (dir, name) -> name.toLowerCase().endsWith(".jar"));
     }
 
-    public File[] getListOfFiles() {
-        return listOfFiles;
-    }
     public void check(){
         File[] files = loadFromFile();
         if(files.length!=number){

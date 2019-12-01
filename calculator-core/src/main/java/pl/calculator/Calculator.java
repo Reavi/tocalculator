@@ -16,7 +16,7 @@ public class Calculator{
 	private LoadedPlugins lps = new LoadedPlugins();
 	private Plugin pl = new Plugin();
 
-	public Calculator() throws Exception {
+	public Calculator() {
 		ArrayList<Operation> op = new ArrayList<>();
 		op.add(new AddFactory().CreateOperation());
 		op.add(new SubFactory().CreateOperation());
@@ -31,7 +31,7 @@ public class Calculator{
 		loadPlugins(lp);
 
 	}
-	private void loadPlugins(LoaderPlugin lp) throws Exception {
+	private void loadPlugins(LoaderPlugin lp) {
 		Map<String, Operation> tmp = lp.load();
 		for (Map.Entry<String, Operation> entry : tmp.entrySet()) {
 		lps.addOb(entry.getValue());

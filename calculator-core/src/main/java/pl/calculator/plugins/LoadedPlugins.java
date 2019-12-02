@@ -1,7 +1,6 @@
 package pl.calculator.plugins;
 
 import pl.calculator.Operation;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,9 +8,17 @@ import java.util.Map;
 public class LoadedPlugins implements Observer {
     private ArrayList<String> operands=new ArrayList<>();
     private Map<String, Operation> ob=new HashMap<>();
+    private ArrayList<String> listFile=new ArrayList<>();
 
-    public LoadedPlugins(){
+
+    ArrayList<String> getListFile() {
+        return listFile;
     }
+    void addToListFile(String s){
+        this.listFile.add(s);
+    }
+
+    public LoadedPlugins(){}
 
     @Override
     public void update() {
@@ -28,11 +35,9 @@ public class LoadedPlugins implements Observer {
         ob.put(o.getSign(),o);
         operands.add(o.getSign());
     }
-
     public Map<String, Operation> getOb() {
         return ob;
     }
-
     public int getSizeOperand(){
         return operands.size();
     }

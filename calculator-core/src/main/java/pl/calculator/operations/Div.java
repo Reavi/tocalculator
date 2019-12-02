@@ -12,7 +12,7 @@ public class Div implements Operation {
     public double action(double a, double... arg) {
         for(double i : arg){
             if(i==0){
-                //rzuc wyjatek
+                throw new IllegalArgumentException("Nie dziel przez 0!");
             }else {
                 a/=i;
             }

@@ -24,12 +24,11 @@ public class CalcCore {
 		op.add(new SubFactory().CreateOperation());
 		op.add(new MulFactory().CreateOperation());
 		op.add(new DivFactory().CreateOperation());
-		op.add(new SqrtFactory().CreateOperation());
+		//op.add(new SqrtFactory().CreateOperation());
 		pl.attach(lps);
 		for(Operation o : op){
 			lps.addOb(o);
 		}
-
 		LoaderPlugin lp = new LoaderPlugin(lps);
 		loadPlugins(lp);
 
@@ -43,8 +42,6 @@ public class CalcCore {
 
 	public void read(String s){
 		pl.check();
-
-
 		sum=0;
 		actualS=s.trim();
 		int actualOperand=getIndexOperand();//miejsce operanda
@@ -63,18 +60,13 @@ public class CalcCore {
 				this.pB=Double.parseDouble(actualS.substring(0,actualOperand));//druga liczba
 
 			}
-
 			work();
 			if(actualOperand!=-1){
 				this.sign=actualS.substring(actualOperand,actualOperand+1);//ustaw kolejny operand
 				actualS=actualS.substring(actualOperand+1);
 			}
 		}
-
-
 	}
-
-
 
 	public double result(){
 		return sum;
@@ -106,15 +98,11 @@ public class CalcCore {
 	}
 
 	public void read2(String s) {
-		//BUFOR CZY WSZYSTKIE ZNAKI SA POPRAWNE
-
+		pl.check();
 		new EntryGuard().process(s,lps.getOperands());
-
 		this.actualS=s;
-		//rozbicie na czesci
 		ArrayList<String> parts=listOfParts();
 
-		//
 		double suma=0;
 		Map<String, Operation> obTmp = new HashMap<>(lps.getOb());
 		while(!obTmp.isEmpty()){
@@ -149,10 +137,7 @@ public class CalcCore {
 			}else{
 				obTmp.remove(sign);
 			}
-
-
 		}
-
 
 		for(String i: parts){
 			System.out.println(i);
@@ -161,11 +146,8 @@ public class CalcCore {
 
 	}
 	private ArrayList<String> listOfParts(){
-		//Rozbicie na  części do tablicy arralist
 		ArrayList<String>  lista = new ArrayList<>();
-		/////////
-		int actualOperand=getIndexOperand();//miejsce operanda
-		//jeżeli liczba na minusie przypadek pierwszy, od niej sie zaczyna
+		int actualOperand=getIndexOperand();
 		if(actualOperand==0 && this.actualS.charAt(0)=='-') {
 			this.actualS = this.actualS.substring(1);
 			actualOperand = getIndexOperand();
@@ -176,12 +158,9 @@ public class CalcCore {
 			}
 			this.actualS = this.actualS.substring(actualOperand);
 		}
-		//////////////
-
 
 		while(!actualS.isEmpty()){
-			actualOperand=getIndexOperand();//miejsce operanda
-			//jeżeli liczba na minusie przypadek pierwszy, od niej sie zaczyna
+			actualOperand=getIndexOperand();
 			if(actualOperand==0) {
 				lista.add(this.actualS.substring(0, 1));
 				this.actualS = this.actualS.substring(actualOperand + 1);

@@ -2,7 +2,6 @@ package pl.calculator.plugins;
 
 
 import pl.calculator.Operation;
-
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -14,13 +13,26 @@ import java.util.jar.JarFile;
 
 public class LoaderPlugin {
     private ArrayList<String> op;
+    private LoadedPlugins lps;
     public LoaderPlugin(LoadedPlugins lps) {
         op=lps.getOperands();
+        this.lps=lps;
     }
     public Map<String,Operation> load() {
         File [] listOfFiles=loadFromFile();
         Map<String,Operation> hp=new HashMap<>();
         for(File file : listOfFiles){
+
+            boolean d=false;
+            for(String lf : lps.getListFile()){
+                if(file.getName().equals(lf)){
+                    d=true;
+                }
+            }
+            if(d){
+                continue;
+            }
+            lps.addToListFile(file.getName());
             try{
                 ArrayList<String> names=getNamesClass(file);
                 for(String name : names){
@@ -41,6 +53,7 @@ public class LoaderPlugin {
                     System.out.println(", nazwa klasy: "+constructor.getName()+", znak: "+ic.getSign());
 
                 }
+
             } catch (IllegalAccessException | InstantiationException| InvocationTargetException | ClassNotFoundException | NoSuchMethodException | IOException e) {
                 e.printStackTrace();
             }catch (IllegalStateException e){
@@ -49,7 +62,9 @@ public class LoaderPlugin {
             } catch (ClassCastException e) {
                 System.out.println("Znalezlismy niepasujacy plugin, \""+file.getName()+"\" zostanie on pominiety");
             }
+
         }
+
         return hp;
     }
     private File[] loadFromFile(){

@@ -10,7 +10,7 @@ public class Calculator {
     public void processData(String s){
         try{
             cal.read2(s);
-        }catch (IllegalStateException e){
+        }catch (IllegalStateException | IllegalArgumentException e){
             System.out.println(e.getMessage());
         }
     }

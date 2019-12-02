@@ -6,6 +6,7 @@ import pl.calculator.plugins.Plugin;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Calculator{
@@ -22,6 +23,7 @@ public class Calculator{
 		op.add(new SubFactory().CreateOperation());
 		op.add(new MulFactory().CreateOperation());
 		op.add(new DivFactory().CreateOperation());
+		op.add(new SqrtFactory().CreateOperation());
 		pl.attach(lps);
 		for(Operation o : op){
 			lps.addOb(o);
@@ -70,6 +72,9 @@ public class Calculator{
 
 
 	}
+
+
+
 	public double result(){
 		return sum;
 	}
@@ -97,5 +102,94 @@ public class Calculator{
 	private void work(){
 		Operation c=lps.getObOne(this.sign);
 		this.sum=c.action(this.sum,this.pB);
+	}
+
+	public void read2(String s) {
+		//BUFOR CZY WSZYSTKIE ZNAKI SA POPRAWNE
+
+		//rozbicie na czesci
+		ArrayList<String> parts=listOfParts(s);
+
+		//
+		double suma=0;
+		Map<String, Operation> obTmp = new HashMap<>(lps.getOb());
+		while(!obTmp.isEmpty()){
+			int highesValue=0;
+			String sign="";
+			for (Operation o : obTmp.values()) {
+				if(highesValue<=o.getValidity()){
+					highesValue=o.getValidity();
+					sign=o.getSign();
+				}
+			}
+			int index=0;
+			Boolean exists=false;
+			for(int i=0;i<parts.size();i++){
+				if (parts.get(i).equals(sign)) {
+					index=i;
+					exists=true;
+					break;
+
+				}
+
+			}
+			if(exists){
+				this.sign=sign;
+				double first=Double.parseDouble(parts.get(index-1));
+				double two = Double.parseDouble(parts.get(index+1));
+				Operation c=lps.getObOne(this.sign);
+				suma=c.action(first,two);
+				parts.set(index,String.valueOf(suma));
+				parts.remove(index+1);
+				parts.remove(index-1);
+			}else{
+				obTmp.remove(sign);
+			}
+
+
+		}
+
+
+		for(String i: parts){
+			System.out.println(i);
+		}
+		System.out.println("WYNIK: "+suma);
+
+	}
+	private ArrayList<String> listOfParts(String s){
+		//Rozbicie na  części do tablicy arralist
+		this.actualS=s;
+		ArrayList<String>  lista = new ArrayList<>();
+		/////////
+		int actualOperand=getIndexOperand();//miejsce operanda
+		//jeżeli liczba na minusie przypadek pierwszy, od niej sie zaczyna
+		if(actualOperand==0 && this.actualS.charAt(0)=='-') {
+			this.actualS = this.actualS.substring(1);
+			actualOperand = getIndexOperand();
+			if (actualOperand == -1) {
+				lista.add("-" + this.actualS);
+			} else {
+				lista.add("-" + this.actualS.substring(0, actualOperand));
+			}
+			this.actualS = this.actualS.substring(actualOperand);
+		}
+		//////////////
+
+
+		while(!actualS.isEmpty()){
+			actualOperand=getIndexOperand();//miejsce operanda
+			//jeżeli liczba na minusie przypadek pierwszy, od niej sie zaczyna
+			if(actualOperand==0) {
+				lista.add(this.actualS.substring(0, 1));
+				this.actualS = this.actualS.substring(actualOperand + 1);
+			}else if(actualOperand==-1){
+				lista.add(this.actualS);
+				this.actualS="";
+			}else {
+				lista.add(this.actualS.substring(0,actualOperand));
+				this.actualS=this.actualS.substring(actualOperand);
+			}
+		}
+		return lista;
 	}
 }

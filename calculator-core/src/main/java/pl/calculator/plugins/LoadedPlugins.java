@@ -28,6 +28,11 @@ public class LoadedPlugins implements Observer {
         ob.put(o.getSign(),o);
         operands.add(o.getSign());
     }
+
+    public Map<String, Operation> getOb() {
+        return ob;
+    }
+
     public int getSizeOperand(){
         return operands.size();
     }

@@ -8,7 +8,7 @@ public class App {
 	Scanner scanner = new Scanner(System.in);
 
 	while (scanner.hasNextLine()) {
-		cal.read(scanner.nextLine());
+		cal.read2(scanner.nextLine());
 		System.out.println(cal.result());
 	}
     }

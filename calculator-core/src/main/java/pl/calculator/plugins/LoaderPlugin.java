@@ -14,10 +14,8 @@ import java.util.jar.JarFile;
 
 public class LoaderPlugin {
     private ArrayList<String> op;
-    private LoadedPlugins lps;
     public LoaderPlugin(LoadedPlugins lps) {
         op=lps.getOperands();
-        this.lps=lps;
     }
     public Map<String,Operation> load() {
         File [] listOfFiles=loadFromFile();

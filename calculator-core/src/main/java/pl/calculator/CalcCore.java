@@ -15,22 +15,32 @@ public class CalcCore {
 	private String actualS;
 	private String sign;
 	private double pB;
-	private LoadedPlugins lps = new LoadedPlugins();
-	private Plugin pl = new Plugin();
-
+	private LoadedPlugins lps;
+	private Plugin pl;
+	private boolean bf=true;
 	public CalcCore() {
-		ArrayList<Operation> op = new ArrayList<>();
-		op.add(new AddFactory().CreateOperation());
-		op.add(new SubFactory().CreateOperation());
-		op.add(new MulFactory().CreateOperation());
-		op.add(new DivFactory().CreateOperation());
-		//op.add(new SqrtFactory().CreateOperation());
-		pl.attach(lps);
-		for(Operation o : op){
-			lps.addOb(o);
-		}
-		LoaderPlugin lp = new LoaderPlugin(lps);
-		loadPlugins(lp);
+
+
+		try{
+			lps=new LoadedPlugins();
+			pl=new Plugin();
+			ArrayList<Operation> op = new ArrayList<>();
+			op.add(new AddFactory().CreateOperation());
+			op.add(new SubFactory().CreateOperation());
+			op.add(new MulFactory().CreateOperation());
+			op.add(new DivFactory().CreateOperation());
+			//op.add(new SqrtFactory().CreateOperation());
+			pl.attach(lps);
+			for(Operation o : op){
+				lps.addOb(o);
+			}
+			LoaderPlugin lp = new LoaderPlugin(lps);
+			loadPlugins(lp);
+		}catch (NullPointerException e){
+			bf=false;
+            System.out.println("brak folderu");
+        }
+
 
 	}
 	private void loadPlugins(LoaderPlugin lp) {
@@ -98,7 +108,7 @@ public class CalcCore {
 	}
 
 	public void read2(String s) {
-		pl.check();
+		if(bf){pl.check();}
 		new EntryGuard().process(s,lps.getOperands());
 		this.actualS=s;
 		ArrayList<String> parts=listOfParts();

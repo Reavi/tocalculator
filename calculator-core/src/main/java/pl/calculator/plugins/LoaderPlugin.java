@@ -36,7 +36,8 @@ public class LoaderPlugin {
             try{
                 ArrayList<String> names=getNamesClass(file);
                 for(String name : names){
-                    URL[] classLoaderUrls = new URL[]{new URL("file:///d:/plugin/"+file.getName())};
+                    
+                    URL[] classLoaderUrls = new URL[]{new URL("file:///"+System.getProperty("user.dir")+"/plugin/"+file.getName())};
                     URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls,Thread.currentThread().getContextClassLoader());
                     Class<?> cl = urlClassLoader.loadClass(name);
                     Constructor<?> constructor = cl.getConstructor();
@@ -68,7 +69,7 @@ public class LoaderPlugin {
         return hp;
     }
     private File[] loadFromFile(){
-        File folder = new File("d:/plugin/");
+        File folder = new File(System.getProperty("user.dir")+"/plugin/");
         return folder.listFiles(
                 (dir, name) -> name.toLowerCase().endsWith(".jar"));
     }

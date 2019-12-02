@@ -10,7 +10,11 @@ public class Plugin implements Observable {
     private int number = 0;
     public Plugin(){
         this.listOfFiles=loadFromFile();
-        this.number=listOfFiles.length;
+        if(this.listOfFiles!=null){
+            this.number=listOfFiles.length;
+        }
+
+
     }
     @Override
     public void attach(Observer observer) {
@@ -33,7 +37,7 @@ public class Plugin implements Observable {
         }
     }
     private File[] loadFromFile(){
-        File folder = new File("d:/plugin/");
+        File folder = new File(System.getProperty("user.dir")+"/plugin/");
         return folder.listFiles(
                 (dir, name) -> name.toLowerCase().endsWith(".jar"));
     }

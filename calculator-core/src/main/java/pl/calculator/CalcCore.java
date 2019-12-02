@@ -3,13 +3,14 @@ import pl.calculator.factory.*;
 import pl.calculator.plugins.LoadedPlugins;
 import pl.calculator.plugins.LoaderPlugin;
 import pl.calculator.plugins.Plugin;
+import pl.calculator.string.EntryGuard;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Calculator{
+public class CalcCore {
 	private double sum=0;
 	private String actualS;
 	private String sign;
@@ -17,7 +18,7 @@ public class Calculator{
 	private LoadedPlugins lps = new LoadedPlugins();
 	private Plugin pl = new Plugin();
 
-	public Calculator() {
+	public CalcCore() {
 		ArrayList<Operation> op = new ArrayList<>();
 		op.add(new AddFactory().CreateOperation());
 		op.add(new SubFactory().CreateOperation());
@@ -107,8 +108,11 @@ public class Calculator{
 	public void read2(String s) {
 		//BUFOR CZY WSZYSTKIE ZNAKI SA POPRAWNE
 
+		new EntryGuard().process(s,lps.getOperands());
+
+		this.actualS=s;
 		//rozbicie na czesci
-		ArrayList<String> parts=listOfParts(s);
+		ArrayList<String> parts=listOfParts();
 
 		//
 		double suma=0;
@@ -123,7 +127,7 @@ public class Calculator{
 				}
 			}
 			int index=0;
-			Boolean exists=false;
+			boolean exists=false;
 			for(int i=0;i<parts.size();i++){
 				if (parts.get(i).equals(sign)) {
 					index=i;
@@ -156,9 +160,8 @@ public class Calculator{
 		System.out.println("WYNIK: "+suma);
 
 	}
-	private ArrayList<String> listOfParts(String s){
+	private ArrayList<String> listOfParts(){
 		//Rozbicie na  części do tablicy arralist
-		this.actualS=s;
 		ArrayList<String>  lista = new ArrayList<>();
 		/////////
 		int actualOperand=getIndexOperand();//miejsce operanda

@@ -1,15 +1,16 @@
 package pl.calculator;
 
+import pl.calculator.api.Calculator;
+
 import java.util.Scanner;
 
 public class App {
-    public static void main( String[] args ) throws Exception {
-	Calculator cal=new Calculator();
-	Scanner scanner = new Scanner(System.in);
-
-	while (scanner.hasNextLine()) {
-		cal.read2(scanner.nextLine());
-		System.out.println(cal.result());
-	}
+    public static void main( String[] args ){
+		Calculator cc = new Calculator();
+		Scanner scanner = new Scanner(System.in);
+		while (scanner.hasNextLine()) {
+			cc.processData(scanner.nextLine());
+			System.out.println(cc.getResult());
+		}
     }
 }

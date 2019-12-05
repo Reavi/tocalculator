@@ -1,3 +1,8 @@
+$path = "plugin"
+If(!(test-path $path))
+{
+      New-Item -ItemType Directory -Force -Path $path
+}
 if (Test-Path ".\calculator-main\target\calculator-main-1.0-SNAPSHOT.jar"){
 	java -cp calculator-main/target/calculator-main-1.0-SNAPSHOT.jar pl.calculator.App
 }

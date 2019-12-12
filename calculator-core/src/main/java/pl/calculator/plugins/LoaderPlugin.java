@@ -7,13 +7,17 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.NoSuchFileException;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoaderPlugin {
     private ArrayList<String> op;
     private LoadedPlugins lps;
+    private static final Logger log = LoggerFactory.getLogger(LoaderPlugin.class);
     public LoaderPlugin(LoadedPlugins lps) {
         op=lps.getOperands();
         this.lps=lps;
@@ -45,23 +49,25 @@ public class LoaderPlugin {
 
                     for(String sign: op){
                         if(sign.equals(ic.getSign())){
-                            System.out.print("Nie wczytano klasy z: "+file.getName()+", nazwa klasy: "+constructor.getName()+", znak: "+ic.getSign());
+                            log.warn("Nie wczytano klasy z: "+file.getName()+", nazwa klasy: "+constructor.getName()+", znak: "+ic.getSign());
                             throw new IllegalStateException("Istnieje juz taki znak!");
                         }
                     }
-                    System.out.print("Pomyślnie załadowano klasę z pluginu: "+file.getName());
+                    log.info("Pomyślnie załadowano klasę z pluginu: "+file.getName());
                     hp.put(ic.getSign(),ic);
-                    System.out.println(", nazwa klasy: "+constructor.getName()+", znak: "+ic.getSign());
+                    log.info(", nazwa klasy: "+constructor.getName()+", znak: "+ic.getSign());
 
                 }
 
+            } catch (NoSuchFileException e){
+                log.error("No sucj file Exception:\n"+ e.getMessage());
             } catch (IllegalAccessException | InstantiationException| InvocationTargetException | ClassNotFoundException | NoSuchMethodException | IOException e) {
-                e.printStackTrace();
-            }catch (IllegalStateException e){
-                System.out.println(" "+e.getMessage());
-
+                log.error("IllegalAccess Instantion Exception etc:\n"+e.getMessage());
+            }
+            catch (IllegalStateException e) {
+                log.error("IllegalState Exceptio:\n"+e.getMessage());
             } catch (ClassCastException e) {
-                System.out.println("Znalezlismy niepasujacy plugin, \""+file.getName()+"\" zostanie on pominiety");
+                log.error("Znalezlismy niepasujacy plugin, \""+file.getName()+"\" zostanie on pominiety.\n INFO:"+e.getMessage());
             }
 
         }
@@ -73,7 +79,7 @@ public class LoaderPlugin {
         return folder.listFiles(
                 (dir, name) -> name.toLowerCase().endsWith(".jar"));
     }
-    private ArrayList<String> getNamesClass(File file) throws IOException {
+    private ArrayList<String> getNamesClass(File file) throws IOException, NoSuchFileException {
         JarFile jf = new JarFile(file);
         Enumeration<JarEntry> entries = jf.entries();
         String name = "";

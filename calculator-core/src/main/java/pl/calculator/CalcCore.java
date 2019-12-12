@@ -1,4 +1,6 @@
 package pl.calculator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.calculator.factory.*;
 import pl.calculator.plugins.LoadedPlugins;
 import pl.calculator.plugins.LoaderPlugin;
@@ -18,9 +20,12 @@ public class CalcCore {
 	private LoadedPlugins lps;
 	private Plugin pl;
 	private boolean bf=true;
+	private static final Logger log = LoggerFactory.getLogger(CalcCore.class);
 	public CalcCore() {
-
-
+		log.error("ERROR");
+		log.warn("WARN");
+		log.debug("DEBUG");
+		log.info("INFO");
 		try{
 			lps=new LoadedPlugins();
 			pl=new Plugin();
@@ -29,7 +34,6 @@ public class CalcCore {
 			op.add(new SubFactory().CreateOperation());
 			op.add(new MulFactory().CreateOperation());
 			op.add(new DivFactory().CreateOperation());
-			//op.add(new SqrtFactory().CreateOperation());
 			pl.attach(lps);
 			for(Operation o : op){
 				lps.addOb(o);
@@ -38,7 +42,7 @@ public class CalcCore {
 			loadPlugins(lp);
 		}catch (NullPointerException e){
 			bf=false;
-            System.out.println("brak folderu");
+            log.info("Brak folderu na pluginy");
         }
 
 
@@ -56,7 +60,7 @@ public class CalcCore {
 		actualS=s.trim();
 		int actualOperand=getIndexOperand();//miejsce operanda
 		if(actualOperand==-1){
-			System.out.println("Złe wyrażenie");
+			log.warn("Złe wyrażenie");
 		}
 		this.sign=actualS.substring(actualOperand,actualOperand+1);//pobierz operand
 		this.sum=Double.parseDouble(actualS.substring(0,actualOperand));//pierwsza liczba
@@ -148,11 +152,7 @@ public class CalcCore {
 				obTmp.remove(sign);
 			}
 		}
-
-		for(String i: parts){
-			System.out.println(i);
-		}
-		System.out.println("WYNIK: "+suma);
+		this.sum=suma;
 
 	}
 	private ArrayList<String> listOfParts(){

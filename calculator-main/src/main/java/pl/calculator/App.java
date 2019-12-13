@@ -1,7 +1,6 @@
 package pl.calculator;
 
 import pl.calculator.api.Calculator;
-
 import java.util.Scanner;
 
 public class App {

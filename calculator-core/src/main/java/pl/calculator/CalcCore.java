@@ -20,12 +20,9 @@ public class CalcCore {
 	private LoadedPlugins lps;
 	private Plugin pl;
 	private boolean bf=true;
+	private static final Logger debug = LoggerFactory.getLogger("debug");
 	private static final Logger log = LoggerFactory.getLogger(CalcCore.class);
 	public CalcCore() {
-		log.error("ERROR");
-		log.warn("WARN");
-		log.debug("DEBUG");
-		log.info("INFO");
 		try{
 			lps=new LoadedPlugins();
 			pl=new Plugin();

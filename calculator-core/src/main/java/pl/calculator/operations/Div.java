@@ -17,7 +17,7 @@ public class Div implements Operation {
                 a/=i;
             }
         }
-        return 0;
+        return a;
     }
 
     @Override

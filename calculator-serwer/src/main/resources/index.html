@@ -16,6 +16,18 @@
 </div>
 
 <div id="wynik">Wynik: <div id="wynikResult"></div></div>
+
+
+
+<form id="t" action="/form" ENCTYPE="multipart/form-data" method="POST" name="wibble">
+    choose a file to upload:<input type="file" name="myfile"/><br>
+    <input type="submit"/>
+</form>
+
+
+
+
+
 <script>
     $(function () {
         var productAction = $("#oblicz");
@@ -23,7 +35,29 @@
             ob($("#val").val());
         });
 
+        $("#fileUpload").click(function () {
+            sendFile(document.getElementById("plugin").files[0]);
+        });
+        $("t").submit(function () {
+            alert("t")
+        })
+
     });
+    function sendFile(file) {
+        alert(file)
+        $.ajax({
+            url: '/sendfile',
+            type: "POST",
+            data: {file:file},
+            processData: false,
+            contentType: false,
+            done: function(data) { // je récupère la réponse du fichier PHP
+                alert("Done"+data)
+            }
+        });
+
+    }
+
     function ob(value) {
         $.get("/calc", {op:value}).done(function () {
             getValue();

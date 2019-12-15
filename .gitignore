@@ -7,3 +7,5 @@ target
 classes
 *.log
 dependency-reduced-*
+file-uploads
+plugin

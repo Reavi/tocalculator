@@ -62,7 +62,7 @@ fun main(args: Array<String>) {
                     // and provide methods for encode and decode the bytes
                 }
 
-
+                routingContext.reroute("/")
             }
     router.post("/sendfile").handler{
         println(it.request().getParam("file"))

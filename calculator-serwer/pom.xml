@@ -43,7 +43,7 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
-            <version>4.0.0-milestone2</version>
+            <version>3.8.4</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
@@ -54,6 +54,17 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
             <version>3.8.4</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web-client</artifactId>
+            <version>3.8.4</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.calculator</groupId>
+            <artifactId>calculator-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

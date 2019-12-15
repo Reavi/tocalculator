@@ -3,21 +3,22 @@ package pl.calculator
 
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Router
+import pl.calculator.api.Calculator
 
 fun main(args: Array<String>) {
     val vertx = Vertx.vertx()
     val port = 8000
     val router = Router.router(vertx)
+    val calculator = Calculator()
     //hierarchicznie jest
     router.get("/calc").handler{
-        it.response().end("Yey")
+        println(calculator.processData(it.request().getParam("op")))
+        it.response().sendFile("index.html")
     }
     router.route().handler{
         it.response().sendFile("index.html")
     }
-    router.get("/calc").handler{
-        it.response().end("Yey")
-    }
+
 
 
     val server = vertx.createHttpServer()

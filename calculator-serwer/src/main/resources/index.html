@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
 <form method="get" action="/calc">
@@ -10,5 +13,24 @@
     <br><br>
     <input type="submit" value="oblicz">
 </form>
+
+<div id="wynik">Wynik: <div id="wynikResult"></div></div>
+<script>
+    $(function () {
+        load();
+
+    });
+    function load() {
+        $("#wynik").children().remove();
+        $.getJSON("/calc", function (data) {
+            $.each(data, function (key, val) {
+                $("<tr><td>" + val.wynik +
+                    "<td>").appendTo("#wynikResult");
+            });
+
+        });
+    }
+
+</script>
 </body>
 </html>

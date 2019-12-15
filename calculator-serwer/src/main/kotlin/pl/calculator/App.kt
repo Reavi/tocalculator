@@ -1,7 +1,9 @@
 package pl.calculator
 
 
+
 import io.vertx.core.Vertx
+import io.vertx.core.json.Json
 import io.vertx.ext.web.Router
 import pl.calculator.api.Calculator
 
@@ -12,10 +14,17 @@ fun main(args: Array<String>) {
     val calculator = Calculator()
     //hierarchicznie jest
     router.get("/calc").handler{
-        println(calculator.processData(it.request().getParam("op")))
-        it.response().sendFile("index.html")
+        calculator.processData(it.request().getParam("op"))
+        println(calculator.result)
+        it.response().end()
     }
-    router.route().handler{
+    router.get("/result").handler{
+        it.response()
+                .setStatusCode(200)
+                .putHeader("content-type", "application/json; charset=utf-8")
+                .end(Json.encodePrettily(calculator.result));
+    }
+    router.route("/").handler{
         it.response().sendFile("index.html")
     }
 
@@ -26,4 +35,6 @@ fun main(args: Array<String>) {
         if (it.succeeded()) println("Server listening at $port")
         else println(it.cause())
     }
+
 }
+

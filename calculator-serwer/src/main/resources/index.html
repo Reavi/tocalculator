@@ -3,30 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
-<form method="get" action="/calc">
-    Wpisz działanie: <input type="text" name="op" value="">
+<div class="calc">
+    Wpisz działanie: <input id="val" type="text" name="op">
     <br><br>
-    <input type="submit" value="oblicz">
-</form>
+    <button type="button" id="oblicz">Oblicz</button>
+
+</div>
 
 <div id="wynik">Wynik: <div id="wynikResult"></div></div>
 <script>
     $(function () {
-        load();
+        var productAction = $("#oblicz");
+        productAction.click(function () {
+            ob($("#val").val());
+        });
 
     });
-    function load() {
-        $("#wynik").children().remove();
-        $.getJSON("/calc", function (data) {
-            $.each(data, function (key, val) {
-                $("<tr><td>" + val.wynik +
-                    "<td>").appendTo("#wynikResult");
-            });
+    function ob(value) {
+        $.get("/calc", {op:value}).done(function () {
+            getValue();
+        });
+
+    }
+    function getValue() {
+        $.getJSON("/result", function (data) {
+            $("#wynikResult").text(data)
 
         });
     }

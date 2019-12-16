@@ -6,3 +6,6 @@ target
 */*/test
 classes
 *.log
+dependency-reduced-*
+file-uploads
+plugin

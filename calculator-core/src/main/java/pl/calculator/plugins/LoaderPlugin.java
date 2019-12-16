@@ -23,7 +23,7 @@ public class LoaderPlugin {
         this.lps=lps;
     }
     public Map<String,Operation> load() {
-        File [] listOfFiles=loadFromFile();
+        File [] listOfFiles= DirReader.loadFromDirJarFile();
         Map<String,Operation> hp=new HashMap<>();
         for(File file : listOfFiles){
 
@@ -74,12 +74,8 @@ public class LoaderPlugin {
 
         return hp;
     }
-    private File[] loadFromFile(){
-        File folder = new File(System.getProperty("user.dir")+"/plugin/");
-        return folder.listFiles(
-                (dir, name) -> name.toLowerCase().endsWith(".jar"));
-    }
-    private ArrayList<String> getNamesClass(File file) throws IOException, NoSuchFileException {
+
+    private ArrayList<String> getNamesClass(File file) throws IOException {
         JarFile jf = new JarFile(file);
         Enumeration<JarEntry> entries = jf.entries();
         String name = "";

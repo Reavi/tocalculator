@@ -55,6 +55,7 @@
     
     <module>calculator-main</module>
       <module>common</module>
+    <module>calculator-serwer</module>
 
   </modules>
    

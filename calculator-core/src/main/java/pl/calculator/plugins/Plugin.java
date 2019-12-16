@@ -9,7 +9,7 @@ public class Plugin implements Observable {
     private File[] listOfFiles;
     private int number = 0;
     public Plugin(){
-        this.listOfFiles=loadFromFile();
+        this.listOfFiles= DirReader.loadFromDirJarFile();
         if(this.listOfFiles!=null){
             this.number=listOfFiles.length;
         }
@@ -36,14 +36,8 @@ public class Plugin implements Observable {
             }
         }
     }
-    private File[] loadFromFile(){
-        File folder = new File(System.getProperty("user.dir")+"/plugin/");
-        return folder.listFiles(
-                (dir, name) -> name.toLowerCase().endsWith(".jar"));
-    }
-
     public void check(){
-        File[] files = loadFromFile();
+        File[] files = DirReader.loadFromDirJarFile();
         if(files.length!=number){
             this.listOfFiles=files;
             this.number=files.length;

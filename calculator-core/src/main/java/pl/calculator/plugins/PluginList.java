@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoadedPlugins implements Observer {
+public class PluginList implements Observer {
     private ArrayList<String> operands=new ArrayList<>();
     private Map<String, Operation> ob=new HashMap<>();
     private ArrayList<String> listFile=new ArrayList<>();
@@ -17,7 +17,7 @@ public class LoadedPlugins implements Observer {
         this.listFile.add(s);
     }
 
-    public LoadedPlugins(){}
+    public PluginList(){}
 
     @Override
     public void update() {

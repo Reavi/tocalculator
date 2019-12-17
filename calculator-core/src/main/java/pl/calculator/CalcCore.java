@@ -3,7 +3,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.calculator.factory.*;
 import pl.calculator.plugins.DirReader;
-import pl.calculator.plugins.LoadedPlugins;
+import pl.calculator.plugins.PluginList;
 import pl.calculator.plugins.LoaderPlugin;
 import pl.calculator.plugins.Plugin;
 import pl.calculator.string.EntryGuard;
@@ -18,24 +18,20 @@ public class CalcCore {
 	private String actualS;
 	private String sign;
 	private double pB;
-	private LoadedPlugins lps;
+	private PluginList lps;
 	private Plugin pl;
 	private static final Logger debug = LoggerFactory.getLogger("debug");
 	private static final Logger log = LoggerFactory.getLogger(CalcCore.class);
 	public CalcCore(String name) {
-        if(!name.equals("")){
-            name="/"+name;
-        }
 		DirReader.setName(name);
 
-		lps=new LoadedPlugins();
-		pl=new Plugin();
+		lps=new PluginList();
+		pl=new Plugin(lps);
 		ArrayList<Operation> op = new ArrayList<>();
 		op.add(new AddFactory().CreateOperation());
 		op.add(new SubFactory().CreateOperation());
 		op.add(new MulFactory().CreateOperation());
 		op.add(new DivFactory().CreateOperation());
-		pl.attach(lps);
 		for(Operation o : op){
 			lps.addOb(o);
 		}

@@ -6,15 +6,10 @@ import java.util.Set;
 
 public class Plugin implements Observable {
     private Set<Observer> observers = new HashSet<>();
-    private File[] listOfFiles;
     private int number = 0;
-    public Plugin(){
-        this.listOfFiles= DirReader.loadFromDirJarFile();
-        if(this.listOfFiles!=null){
-            this.number=listOfFiles.length;
-        }
-
-
+    public Plugin(Observer lps){
+        attach(lps);
+        check();
     }
     @Override
     public void attach(Observer observer) {
@@ -39,7 +34,6 @@ public class Plugin implements Observable {
     public void check(){
         File[] files = DirReader.loadFromDirJarFile();
         if(files.length!=number){
-            this.listOfFiles=files;
             this.number=files.length;
             notifyObservers();
         }

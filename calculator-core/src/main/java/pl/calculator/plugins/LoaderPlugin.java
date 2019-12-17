@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 public class LoaderPlugin {
     private ArrayList<String> op;
-    private LoadedPlugins lps;
+    private PluginList lps;
     private static final Logger log = LoggerFactory.getLogger(LoaderPlugin.class);
-    public LoaderPlugin(LoadedPlugins lps) {
+    public LoaderPlugin(PluginList lps) {
         op=lps.getOperands();
         this.lps=lps;
     }

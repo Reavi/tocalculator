@@ -9,3 +9,5 @@ classes
 dependency-reduced-*
 file-uploads
 plugin
+plugins
+*.log~

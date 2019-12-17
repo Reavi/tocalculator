@@ -10,7 +10,6 @@ public class LoadedPlugins implements Observer {
     private Map<String, Operation> ob=new HashMap<>();
     private ArrayList<String> listFile=new ArrayList<>();
 
-
     ArrayList<String> getListFile() {
         return listFile;
     }

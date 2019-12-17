@@ -2,6 +2,7 @@ package pl.calculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.calculator.factory.*;
+import pl.calculator.plugins.DirReader;
 import pl.calculator.plugins.LoadedPlugins;
 import pl.calculator.plugins.LoaderPlugin;
 import pl.calculator.plugins.Plugin;
@@ -19,28 +20,28 @@ public class CalcCore {
 	private double pB;
 	private LoadedPlugins lps;
 	private Plugin pl;
-	private boolean bf=true;
 	private static final Logger debug = LoggerFactory.getLogger("debug");
 	private static final Logger log = LoggerFactory.getLogger(CalcCore.class);
-	public CalcCore() {
-		try{
-			lps=new LoadedPlugins();
-			pl=new Plugin();
-			ArrayList<Operation> op = new ArrayList<>();
-			op.add(new AddFactory().CreateOperation());
-			op.add(new SubFactory().CreateOperation());
-			op.add(new MulFactory().CreateOperation());
-			op.add(new DivFactory().CreateOperation());
-			pl.attach(lps);
-			for(Operation o : op){
-				lps.addOb(o);
-			}
-			LoaderPlugin lp = new LoaderPlugin(lps);
-			loadPlugins(lp);
-		}catch (NullPointerException e){
-			bf=false;
-            log.info("Brak folderu na pluginy");
+	public CalcCore(String name) {
+        if(!name.equals("")){
+            name="/"+name;
         }
+		DirReader.setName(name);
+
+		lps=new LoadedPlugins();
+		pl=new Plugin();
+		ArrayList<Operation> op = new ArrayList<>();
+		op.add(new AddFactory().CreateOperation());
+		op.add(new SubFactory().CreateOperation());
+		op.add(new MulFactory().CreateOperation());
+		op.add(new DivFactory().CreateOperation());
+		pl.attach(lps);
+		for(Operation o : op){
+			lps.addOb(o);
+		}
+		LoaderPlugin lp = new LoaderPlugin(lps);
+		loadPlugins(lp);
+
 
 
 	}
@@ -109,7 +110,7 @@ public class CalcCore {
 	}
 
 	public void read2(String s) {
-		if(bf){pl.check();}
+		pl.check();
 		new EntryGuard().process(s,lps.getOperands());
 		this.actualS=s;
 		ArrayList<String> parts=listOfParts();

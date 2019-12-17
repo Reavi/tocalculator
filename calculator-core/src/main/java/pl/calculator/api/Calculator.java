@@ -4,8 +4,9 @@ import pl.calculator.CalcCore;
 
 
 public class Calculator {
-    private CalcCore cal=new CalcCore();
-    public Calculator() {
+    private CalcCore cal;
+    public Calculator(String s) {
+        cal = new CalcCore(s);
     }
     public void processData(String s){
         try{

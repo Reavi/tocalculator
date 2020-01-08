@@ -11,14 +11,14 @@
     <file>logfile.log</file>
     <append>true</append>
     <encoder>
-        <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</pattern>
     </encoder>
 </appender>
 <appender name="DEBUG-FILE" class="ch.qos.logback.core.FileAppender">
     <file>debug.log</file>
     <append>true</append>
     <encoder>
-        <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</pattern>
     </encoder>
 </appender>
 <!-- additivity=false ensures analytics data only goes to the analytics log -->

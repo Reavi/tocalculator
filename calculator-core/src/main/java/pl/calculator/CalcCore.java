@@ -41,6 +41,9 @@ public class CalcCore {
 
 
 	}
+	public void updateMods(){
+		pl.check();
+	}
 	private void loadPlugins(LoaderPlugin lp) {
 		Map<String, Operation> tmp = lp.load();
 		for (Map.Entry<String, Operation> entry : tmp.entrySet()) {
@@ -106,6 +109,7 @@ public class CalcCore {
 	}
 
 	public void read2(String s) {
+		log.info("Przyszło wyrażenie "+s);
 		pl.check();
 		new EntryGuard().process(s,lps.getOperands());
 		this.actualS=s;
@@ -147,6 +151,7 @@ public class CalcCore {
 			}
 		}
 		this.sum=suma;
+		log.info("Wynik: "+suma);
 
 	}
 	private ArrayList<String> listOfParts(){

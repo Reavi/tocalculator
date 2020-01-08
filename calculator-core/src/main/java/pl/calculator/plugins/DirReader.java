@@ -6,14 +6,17 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 public class DirReader {
     private static File folder;
-    private static final Logger log = LoggerFactory.getLogger(LoaderPlugin.class);
+    private static final Logger log = LoggerFactory.getLogger(DirReader.class);
     private static String path;
     public static void setName(String s){
         if(!s.equals("")){
             s="/"+s;
         }
         String name = s + "/";
+
         path = System.getProperty("user.dir") + "/plugins" + name;
+        System.out.println(path);
+        log.info("path ustawiony na: "+path);
         folder = new File(path);
         if (!folder.exists()) {
             if (folder.mkdirs()) {

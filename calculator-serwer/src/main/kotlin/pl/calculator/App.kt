@@ -5,11 +5,12 @@ package pl.calculator
 import io.vertx.core.Vertx
 import io.vertx.core.json.Json
 import io.vertx.ext.web.Router
+import io.vertx.ext.web.Session
 import io.vertx.ext.web.handler.BodyHandler
+import org.slf4j.LoggerFactory
 import pl.calculator.api.Calculator
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
-import io.vertx.ext.web.Router.router
 import java.io.File
 
 
@@ -17,11 +18,9 @@ fun main(args: Array<String>) {
     val vertx = Vertx.vertx()
     val port = 8000
     val router = Router.router(vertx)
-    val calculator = Calculator()
+    val calculator = Calculator("new")
+    val log = LoggerFactory.getLogger("App.kt")
     //hierarchicznie jest
-    val FILE_LOCATION = "/ppp"
-    router.post("/sendfile").handler(BodyHandler.create()
-            .setUploadsDirectory(FILE_LOCATION));
     router.get("/calc").handler{
         calculator.processData(it.request().getParam("op"))
         println(calculator.result)
@@ -33,10 +32,10 @@ fun main(args: Array<String>) {
                 .putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(calculator.result));
     }
-    router.post("/form").handler(BodyHandler.create().setMergeFormAttributes(true).setUploadsDirectory("plugin"))
+    router.post("/form").handler(BodyHandler.create().setMergeFormAttributes(true).setUploadsDirectory("plugins"))
     router.post("/form")
             .handler { routingContext ->
-
+                log.info("Mamy nowy plik")
                 val fileUploadSet = routingContext.fileUploads()
                 val fileUploadIterator = fileUploadSet.iterator()
                 while (fileUploadIterator.hasNext()) {
@@ -50,8 +49,9 @@ fun main(args: Array<String>) {
                     try {
                         val fileName = URLDecoder.decode(fileUpload.fileName(), "UTF-8")
                         println(fileName)
-                        File(fileUpload.uploadedFileName()).renameTo(File(fileUpload.uploadedFileName()+".jar"))
-                        File(fileUpload.uploadedFileName()).delete()
+                        File(fileUpload.uploadedFileName()).renameTo(File("plugins/new/"+fileName))
+                        calculator.updateMods();
+                        //File(fileUpload.uploadedFileName()).delete()
 
                     } catch (e: UnsupportedEncodingException) {
                         e.printStackTrace()
@@ -64,17 +64,7 @@ fun main(args: Array<String>) {
 
                 routingContext.reroute("/")
             }
-    router.post("/sendfile").handler{
-        println(it.request().getParam("file"))
-        println(it.fileUploads())
-        for (f in it.fileUploads()) {
-            // do whatever you need to do with the file (it is already saved
-            // on the directory you wanted...
-            println("Filename: " + f.fileName())
-            println("Size: " + f.size())
-        }
-        it.next()
-    }
+
     router.route("/").handler{
         it.response().sendFile("index.html")
     }

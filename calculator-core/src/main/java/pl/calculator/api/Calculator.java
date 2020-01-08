@@ -18,4 +18,7 @@ public class Calculator {
     public Double getResult(){
         return cal.result();
     }
+    public void updateMods(){
+        cal.updateMods();
+    }
 }

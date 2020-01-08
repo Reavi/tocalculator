@@ -1,11 +1,16 @@
 package pl.calculator.plugins;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.calculator.CalcCore;
+
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Plugin implements Observable {
     private Set<Observer> observers = new HashSet<>();
+    private static final Logger log = LoggerFactory.getLogger(Plugin.class);
     private int number = 0;
     public Plugin(Observer lps){
         attach(lps);
@@ -32,7 +37,9 @@ public class Plugin implements Observable {
         }
     }
     public void check(){
+        log.info("sprawdzam iloscp luginow");
         File[] files = DirReader.loadFromDirJarFile();
+        log.info("Ilosc: "+files.length);
         if(files.length!=number){
             this.number=files.length;
             notifyObservers();

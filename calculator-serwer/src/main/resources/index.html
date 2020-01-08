@@ -25,7 +25,9 @@
 </form>
 
 
-
+<div>Obsługiwane znaki
+    <div id="pluginy"></div>
+</div>
 
 
 <script>
@@ -41,6 +43,9 @@
         $("t").submit(function () {
             alert("t")
         })
+
+        getPluginList();
+
 
     });
     function sendFile(file) {
@@ -70,7 +75,15 @@
 
         });
     }
+    function getPluginList(){
+        $.getJSON("/getplugins", function (string) {
+            var lista=string.split(",");
+            for(var i=0;i<lista.length;i++){
+                $("#pluginy").append("<div>"+lista[i]+"</div>");
+            }
 
+        })
+    }
 </script>
 </body>
 </html>

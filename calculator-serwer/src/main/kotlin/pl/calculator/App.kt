@@ -32,6 +32,12 @@ fun main(args: Array<String>) {
                 .putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(calculator.result));
     }
+    router.get("/getplugins").handler {
+        it.response()
+                .setStatusCode(200)
+                .putHeader("content-type","appliaction/json; charset=utf-8")
+                .end(Json.encodePrettily(calculator.pluginListString))
+    }
     router.post("/form").handler(BodyHandler.create().setMergeFormAttributes(true).setUploadsDirectory("plugins"))
     router.post("/form")
             .handler { routingContext ->

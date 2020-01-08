@@ -1,5 +1,6 @@
 package pl.calculator.api;
 
+import com.google.gson.Gson;
 import pl.calculator.CalcCore;
 
 
@@ -20,5 +21,12 @@ public class Calculator {
     }
     public void updateMods(){
         cal.updateMods();
+    }
+    public String getPluginListString(){
+        StringBuilder tmp= new StringBuilder();
+        for(String i : cal.getPLuginList()){
+            tmp.append(i).append(",");
+        }
+        return tmp.toString();
     }
 }

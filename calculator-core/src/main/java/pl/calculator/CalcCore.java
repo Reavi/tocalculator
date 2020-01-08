@@ -183,4 +183,8 @@ public class CalcCore {
 		}
 		return lista;
 	}
+	public ArrayList<String> getPLuginList(){
+		return  lps.getOperands();
+
+	}
 }

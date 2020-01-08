@@ -33,4 +33,12 @@ public class DirReader {
         return folder.listFiles(
                 (dir, name) -> name.toLowerCase().endsWith(".jar"));
     }
+    public static void delete(){
+        File index = new File(path);
+        String[]entries = index.list();
+        for(String s: entries){
+            File currentFile = new File(index.getPath(),s);
+            currentFile.delete();
+        }
+    }
 }

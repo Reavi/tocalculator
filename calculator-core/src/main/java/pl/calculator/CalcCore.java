@@ -6,6 +6,7 @@ import pl.calculator.plugins.DirReader;
 import pl.calculator.plugins.PluginList;
 import pl.calculator.plugins.LoaderPlugin;
 import pl.calculator.plugins.Plugin;
+import pl.calculator.storage.History;
 import pl.calculator.string.EntryGuard;
 
 
@@ -22,6 +23,7 @@ public class CalcCore {
 	private Plugin pl;
 	private static final Logger debug = LoggerFactory.getLogger("debug");
 	private static final Logger log = LoggerFactory.getLogger(CalcCore.class);
+	private static final History his = new History();
 	public CalcCore(String name) {
 		DirReader.setName(name);
 
@@ -152,6 +154,7 @@ public class CalcCore {
 		}
 		this.sum=suma;
 		log.info("Wynik: "+suma);
+		his.add(suma);
 
 	}
 	private ArrayList<String> listOfParts(){
@@ -186,5 +189,8 @@ public class CalcCore {
 	public ArrayList<String> getPLuginList(){
 		return  lps.getOperands();
 
+	}
+	public void clear(){
+		DirReader.delete();
 	}
 }

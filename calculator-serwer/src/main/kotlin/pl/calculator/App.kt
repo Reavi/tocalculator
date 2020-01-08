@@ -41,13 +41,24 @@ fun main(args: Array<String>) {
         it.response()
                 .setStatusCode(200)
                 .putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encodePrettily(it.session().get<Calculator>("calc").result));
+                .end(Json.encodePrettily(it.session().get<Calculator>("calc").result))
+    }
+    router.get("/end").handler {
+        it.session().get<Calculator>("Calc").clear()
+        it.session().destroy()
+        it.response().end()
     }
     router.get("/getplugins").handler {
         it.response()
                 .setStatusCode(200)
                 .putHeader("content-type","appliaction/json; charset=utf-8")
                 .end(Json.encodePrettily(it.session().get<Calculator>("calc").pluginListString))
+    }
+    router.route("/gethistory").handler {
+        it.response()
+                .setStatusCode(200)
+                .putHeader("content-type","application/json; charset=utf-8")
+                .end(Json.encodePrettily(it.session().get<Calculator>("calc").history))
     }
     router.post("/form").handler(BodyHandler.create().setMergeFormAttributes(true).setUploadsDirectory("plugins"))
     router.post("/form")
@@ -99,7 +110,6 @@ fun main(args: Array<String>) {
         cnt = (cnt ?: 0) + 1
 
         session.put("hitcount", cnt)
-
         routingContext.response().putHeader("content-type", "text/html")
                 .end("<html><body><h1>Hitcount: $cnt</h1></body></html>")
     }

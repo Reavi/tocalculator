@@ -8,6 +8,7 @@ import pl.calculator.plugins.LoaderPlugin;
 import pl.calculator.plugins.Plugin;
 import pl.calculator.repository.history.History;
 import pl.calculator.repository.messages.ErrorMessages;
+import pl.calculator.repositoryRepresentation.json.HistoryJsonFormat;
 import pl.calculator.string.EntryGuard;
 
 
@@ -119,7 +120,7 @@ public class CalcCore {
 		}
 		this.sum=suma;
 		log.info("Wynik: "+suma);
-		his.add(suma);
+		his.add(s,Double.toString(suma));
 
 
 	}
@@ -174,6 +175,7 @@ public class CalcCore {
 		DirReader.delete();
 	}
 	public String getHistory() {
-	    return his.getHistory();
+
+		return new HistoryJsonFormat().getString(his.getHistory());
     }
 }

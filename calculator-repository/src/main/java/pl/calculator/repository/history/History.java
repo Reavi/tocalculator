@@ -1,22 +1,18 @@
 package pl.calculator.repository.history;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class History {
     private int count=0;
-    private Map<Integer,String> h=new HashMap<>();
-    public void add(double s){
-        h.put(count,Double.toString(s));
-        count++;
+    private HashMap<Integer, ArrayList<String>> history=new HashMap<>();
+    public void add(String series, String result){
+        history.computeIfAbsent(count, k-> new ArrayList<>()).add(series+"="+result);
+                count++;
     }
-    public String getHistory(){
-        StringBuilder tmp = new StringBuilder();
-        for(Map.Entry<Integer,String> entry :h.entrySet()){
-            tmp.append(entry.getValue()).append(",");
-        }
-        return tmp.toString();
+    public HashMap<Integer,ArrayList<String>> getHistory(){
+        return history;
     }
 
 }

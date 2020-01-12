@@ -97,12 +97,21 @@
 
         })
     }
+    var ciag;
     function getHistory(){
         $.getJSON("/gethistory", function (string) {
+            console.log(string);
+            ciag=string;
+
+
+
             var lista=string.split(",");
+            var obj=JSON.parse(string);
             $("#history").text("");
             for(var i=0;i<lista.length;i++){
-                $("#history").append("<div>"+lista[i]+"</div>");
+                //$("#history").append("<div>"+lista[i]+"</div>");
+                $("#history").append("<div>"+obj[i][0]+"</div>");
+
             }
 
         })

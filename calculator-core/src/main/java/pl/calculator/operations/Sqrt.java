@@ -5,7 +5,7 @@ import pl.calculator.Operation;
 public class Sqrt implements Operation {
     @Override
     public String getSign() {
-        return "s";
+        return "sqrt";
     }
 
     @Override

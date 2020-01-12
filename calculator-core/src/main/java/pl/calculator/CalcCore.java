@@ -10,6 +10,7 @@ import pl.calculator.repository.history.History;
 import pl.calculator.repository.messages.ErrorMessages;
 import pl.calculator.repositoryRepresentation.json.HistoryJsonFormat;
 import pl.calculator.string.EntryGuard;
+import pl.calculator.string.ProcessString;
 
 
 import java.util.ArrayList;
@@ -128,8 +129,10 @@ public class CalcCore {
 		try{
 			log.info("Przyszło wyrażenie "+s);
 			updateMods();
-			checkString(s);
-			procesString(s);
+			//checkString(s);
+			ProcessString str=new ProcessString(s,listOfPluginLoaded);
+			this.sum=str.getSum();
+			//procesString(s);
 		}catch (IllegalStateException e){
 			log.warn(e.getMessage());
 			ErrorMessages.addMess("ERROR",e.getMessage());

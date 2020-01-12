@@ -1,4 +1,4 @@
-package pl.calculator.history;
+package pl.calculator.repository.history;
 
 
 import java.util.HashMap;
@@ -18,4 +18,5 @@ public class History {
         }
         return tmp.toString();
     }
+
 }

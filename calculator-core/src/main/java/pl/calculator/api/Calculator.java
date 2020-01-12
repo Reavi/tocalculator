@@ -1,7 +1,8 @@
 package pl.calculator.api;
 
 import pl.calculator.CalcCore;
-
+import pl.calculator.repository.messages.ErrorMessages;
+import pl.calculator.repositoryRepresentation.json.MessagesJsonFormat;
 
 
 public class Calculator {
@@ -11,6 +12,7 @@ public class Calculator {
     }
     public void processData(String s){
         try{
+            ErrorMessages.clear();
             cal.read2(s);
         }catch (IllegalArgumentException e){
             System.out.println(e.getMessage());
@@ -33,6 +35,6 @@ public class Calculator {
         return cal.getHistory();
     }
     public String getMess(){
-        return "";
+        return new MessagesJsonFormat().getString();
     }
 }

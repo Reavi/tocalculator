@@ -62,6 +62,7 @@ fun main(args: Array<String>) {
             .handler { routingContext ->
                 log.info("Mamy nowy plik")
                 val fileUploadSet = routingContext.fileUploads()
+                println(fileUploadSet);
                 val fileUploadIterator = fileUploadSet.iterator()
                 while (fileUploadIterator.hasNext()) {
                     val fileUpload = fileUploadIterator.next()
@@ -81,9 +82,11 @@ fun main(args: Array<String>) {
             }
 
     router.route("/").handler{
-        val session = it.session()
-        val cc=Calculator(it.session().id())
-        session.put("calc",cc)
+        if(it.session().isEmpty){
+            val cc=Calculator(it.session().id())
+            it.session().put("calc",cc)
+        }
+
         it.response().sendFile("index.html")
     }
 

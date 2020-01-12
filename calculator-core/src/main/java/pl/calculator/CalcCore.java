@@ -6,7 +6,8 @@ import pl.calculator.plugins.DirReader;
 import pl.calculator.plugins.PluginList;
 import pl.calculator.plugins.LoaderPlugin;
 import pl.calculator.plugins.Plugin;
-import pl.calculator.history.History;
+import pl.calculator.repository.history.History;
+import pl.calculator.repository.messages.ErrorMessages;
 import pl.calculator.string.EntryGuard;
 
 
@@ -130,6 +131,7 @@ public class CalcCore {
 			procesString(s);
 		}catch (IllegalStateException e){
 			log.warn(e.getMessage());
+			ErrorMessages.addMess("ERROR",e.getMessage());
 		}
 
 

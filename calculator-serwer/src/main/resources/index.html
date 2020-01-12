@@ -16,14 +16,14 @@
 </div>
 
 <div id="wynik">Wynik: <div id="wynikResult"></div></div>
+<div id="mess"></div>
 
 
-
-<form id="t" action="/form" ENCTYPE="multipart/form-data" method="POST" name="wibble">
-    choose a file to upload:<input type="file" name="myfile"/><br>
+<form id="fileUploadForm" action="/form" ENCTYPE="multipart/form-data" method="POST" name="wibble">
+    choose a file to upload:<input id="plugin" type="file" name="myfile"/><br>
     <input type="submit"/>
 </form>
-
+<button id="fileUpload">second</button>
 
 <div>
     <table style="width:100%">
@@ -48,46 +48,45 @@
         productAction.click(function () {
             ob($("#val").val());
         });
-
-        $("#fileUpload").click(function () {
-            sendFile(document.getElementById("plugin").files[0]);
-        });
-        $("t").submit(function () {
-            alert("t")
-        })
-
         getPluginList();
         getHistory();
 
 
     });
-    function sendFile(file) {
-        alert(file)
-        $.ajax({
-            url: '/sendfile',
-            type: "POST",
-            data: {file:file},
-            processData: false,
-            contentType: false,
-            done: function(data) {
-                alert("Done"+data)
-            }
-        });
 
-    }
 
     function ob(value) {
         $.get("/calc", {op:value}).done(function () {
-            getValue();
+            getMess();
+
         });
 
     }
     function getValue() {
         $.getJSON("/result", function (data) {
-            $("#wynikResult").text(data)
+            $("#wynikResult").text(data);
             getHistory();
+            console.log(data)
+
+
 
         });
+    }
+
+
+    function getMess() {
+        $.getJSON("/getmess", function (data) {
+
+            var result = JSON.parse(data);
+
+            if(data !== "{}"){
+                $("#wynikResult").text("");
+                $("#mess").text(result.ERROR);
+            }else{
+                getValue();
+            }
+        });
+
     }
     function getPluginList(){
         $.getJSON("/getplugins", function (string) {

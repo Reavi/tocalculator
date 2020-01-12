@@ -6,7 +6,7 @@ import pl.calculator.plugins.DirReader;
 import pl.calculator.plugins.PluginList;
 import pl.calculator.plugins.LoaderPlugin;
 import pl.calculator.plugins.Plugin;
-import pl.calculator.storage.History;
+import pl.calculator.history.History;
 import pl.calculator.string.EntryGuard;
 
 
@@ -21,9 +21,8 @@ public class CalcCore {
 	private double pB;
 	private PluginList lps;
 	private Plugin pl;
-	private static final Logger debug = LoggerFactory.getLogger("debug");
 	private static final Logger log = LoggerFactory.getLogger(CalcCore.class);
-	private static final History his = new History();
+	private History his = new History();
 	public CalcCore(String name) {
 		DirReader.setName(name);
 
@@ -156,6 +155,7 @@ public class CalcCore {
 		log.info("Wynik: "+suma);
 		his.add(suma);
 
+
 	}
 	private ArrayList<String> listOfParts(){
 		ArrayList<String>  lista = new ArrayList<>();
@@ -193,4 +193,7 @@ public class CalcCore {
 	public void clear(){
 		DirReader.delete();
 	}
+	public String getHistory() {
+	    return his.getHistory();
+    }
 }

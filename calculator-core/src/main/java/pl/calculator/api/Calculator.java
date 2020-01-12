@@ -1,8 +1,7 @@
 package pl.calculator.api;
 
-import com.google.gson.Gson;
 import pl.calculator.CalcCore;
-import pl.calculator.storage.History;
+
 
 
 public class Calculator {
@@ -31,9 +30,9 @@ public class Calculator {
         return tmp.toString();
     }
     public String getHistory(){
-        return History.getHistory();
+        return cal.getHistory();
     }
-    public void clear(){
-        cal.clear();
+    public String getMess(){
+        return "";
     }
 }

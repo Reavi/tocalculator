@@ -75,11 +75,10 @@ public class CalcCore {
 		}
 		return actualOperand;
 	}
-
-	public void read2(String s) {
-		log.info("Przyszło wyrażenie "+s);
-		observerListOfPLugin.check();
+	private void checkString(String s){
 		new EntryGuard().process(s, listOfPluginLoaded.getOperands());
+	}
+	private void procesString(String s){
 		this.actualString =s;
 		ArrayList<String> parts=listOfParts();
 
@@ -120,6 +119,19 @@ public class CalcCore {
 		this.sum=suma;
 		log.info("Wynik: "+suma);
 		his.add(suma);
+
+
+	}
+	public void read2(String s) {
+		try{
+			log.info("Przyszło wyrażenie "+s);
+			updateMods();
+			checkString(s);
+			procesString(s);
+		}catch (IllegalStateException e){
+			log.warn(e.getMessage());
+		}
+
 
 
 	}

@@ -6,19 +6,21 @@ public class EntryGuard {
     public EntryGuard() {}
 
     public void process(String s, ArrayList<String> list){
-        boolean wrong=true;
+        boolean wrong=false;
         for(char c : s.toCharArray()){
-            wrong=true;
             if(!Character.isDigit(c)){
+                //jezeli nie jest liczba
+                boolean znalazloZnak=false;
                 for(String l : list){
                     if (l.charAt(0) == c) {
-                        wrong = false;
+                        znalazloZnak = true;
                         break;
                     }
                 }
+                if(!znalazloZnak){
+                    wrong=true;
+                }
 
-            }else{
-                wrong=false;
             }
         }
         if(wrong){

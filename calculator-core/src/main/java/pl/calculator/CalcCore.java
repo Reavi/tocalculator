@@ -16,79 +16,50 @@ import java.util.Map;
 
 public class CalcCore {
 	private double sum=0;
-	private String actualS;
-	private String sign;
-	private double pB;
-	private PluginList lps;
-	private Plugin pl;
+	private String actualString;
+	private PluginList listOfPluginLoaded=new PluginList();
+	private Plugin observerListOfPLugin;
 	private static final Logger log = LoggerFactory.getLogger(CalcCore.class);
 	private History his = new History();
 	public CalcCore(String name) {
 		DirReader.setName(name);
-
-		lps=new PluginList();
-		pl=new Plugin(lps);
+		prepare();
+		observerListOfPLugin =new Plugin(listOfPluginLoaded);
+		loadPlugins();
+	}
+	private void prepare(){
 		ArrayList<Operation> op = new ArrayList<>();
 		op.add(new AddFactory().CreateOperation());
 		op.add(new SubFactory().CreateOperation());
 		op.add(new MulFactory().CreateOperation());
 		op.add(new DivFactory().CreateOperation());
 		for(Operation o : op){
-			lps.addOb(o);
+			listOfPluginLoaded.addOb(o);
 		}
-		LoaderPlugin lp = new LoaderPlugin(lps);
-		loadPlugins(lp);
-
-
-
 	}
+
 	public void updateMods(){
-		pl.check();
+		observerListOfPLugin.check();
 	}
-	private void loadPlugins(LoaderPlugin lp) {
-		Map<String, Operation> tmp = lp.load();
+	private void loadPlugins() {
+		Map<String, Operation> tmp = new LoaderPlugin(listOfPluginLoaded).load();
 		for (Map.Entry<String, Operation> entry : tmp.entrySet()) {
-		lps.addOb(entry.getValue());
+		listOfPluginLoaded.addOb(entry.getValue());
 		}
 	}
 
-	public void read(String s){
-		pl.check();
-		sum=0;
-		actualS=s.trim();
-		int actualOperand=getIndexOperand();//miejsce operanda
-		if(actualOperand==-1){
-			log.warn("Złe wyrażenie");
-		}
-		this.sign=actualS.substring(actualOperand,actualOperand+1);//pobierz operand
-		this.sum=Double.parseDouble(actualS.substring(0,actualOperand));//pierwsza liczba
-		actualS=actualS.substring(actualOperand+1);
-		while(!actualS.isEmpty()){
-			actualOperand=getIndexOperand();//znajdz drugi operand
-			if(actualOperand==-1){
-				this.pB=Double.parseDouble(actualS);
-				actualS="";
-			}else{
-				this.pB=Double.parseDouble(actualS.substring(0,actualOperand));//druga liczba
-
-			}
-			work();
-			if(actualOperand!=-1){
-				this.sign=actualS.substring(actualOperand,actualOperand+1);//ustaw kolejny operand
-				actualS=actualS.substring(actualOperand+1);
-			}
-		}
-	}
 
 	public double result(){
 		return sum;
 	}
+
+
 	private int getIndexOperand(){
 		int actualOperand=-1;
 		int i=0;
-		int length=lps.getSizeOperand();
+		int length= listOfPluginLoaded.getSizeOperand();
 		while(i<length){
-			actualOperand=actualS.indexOf(lps.getOp(i));
+			actualOperand= actualString.indexOf(listOfPluginLoaded.getOp(i));
 			i++;
 			if(actualOperand!=-1){
 				break;
@@ -97,27 +68,23 @@ public class CalcCore {
 		if(actualOperand==-1){
 			return actualOperand;
 		}
-		for(String op : lps.getOperands()){
-			if(actualS.indexOf(op)<actualOperand && actualS.contains(op)){
-				actualOperand=actualS.indexOf(op);
+		for(String op : listOfPluginLoaded.getOperands()){
+			if(actualString.indexOf(op)<actualOperand && actualString.contains(op)){
+				actualOperand= actualString.indexOf(op);
 			}
 		}
 		return actualOperand;
 	}
-	private void work(){
-		Operation c=lps.getObOne(this.sign);
-		this.sum=c.action(this.sum,this.pB);
-	}
 
 	public void read2(String s) {
 		log.info("Przyszło wyrażenie "+s);
-		pl.check();
-		new EntryGuard().process(s,lps.getOperands());
-		this.actualS=s;
+		observerListOfPLugin.check();
+		new EntryGuard().process(s, listOfPluginLoaded.getOperands());
+		this.actualString =s;
 		ArrayList<String> parts=listOfParts();
 
 		double suma=0;
-		Map<String, Operation> obTmp = new HashMap<>(lps.getOb());
+		Map<String, Operation> obTmp = new HashMap<>(listOfPluginLoaded.getOb());
 		while(!obTmp.isEmpty()){
 			int highesValue=0;
 			String sign="";
@@ -139,10 +106,9 @@ public class CalcCore {
 
 			}
 			if(exists){
-				this.sign=sign;
 				double first=Double.parseDouble(parts.get(index-1));
 				double two = Double.parseDouble(parts.get(index+1));
-				Operation c=lps.getObOne(this.sign);
+				Operation c= listOfPluginLoaded.getObOne(sign);
 				suma=c.action(first,two);
 				parts.set(index,String.valueOf(suma));
 				parts.remove(index+1);
@@ -160,34 +126,34 @@ public class CalcCore {
 	private ArrayList<String> listOfParts(){
 		ArrayList<String>  lista = new ArrayList<>();
 		int actualOperand=getIndexOperand();
-		if(actualOperand==0 && this.actualS.charAt(0)=='-') {
-			this.actualS = this.actualS.substring(1);
+		if(actualOperand==0 && this.actualString.charAt(0)=='-') {
+			this.actualString = this.actualString.substring(1);
 			actualOperand = getIndexOperand();
 			if (actualOperand == -1) {
-				lista.add("-" + this.actualS);
+				lista.add("-" + this.actualString);
 			} else {
-				lista.add("-" + this.actualS.substring(0, actualOperand));
+				lista.add("-" + this.actualString.substring(0, actualOperand));
 			}
-			this.actualS = this.actualS.substring(actualOperand);
+			this.actualString = this.actualString.substring(actualOperand);
 		}
 
-		while(!actualS.isEmpty()){
+		while(!actualString.isEmpty()){
 			actualOperand=getIndexOperand();
 			if(actualOperand==0) {
-				lista.add(this.actualS.substring(0, 1));
-				this.actualS = this.actualS.substring(actualOperand + 1);
+				lista.add(this.actualString.substring(0, 1));
+				this.actualString = this.actualString.substring(actualOperand + 1);
 			}else if(actualOperand==-1){
-				lista.add(this.actualS);
-				this.actualS="";
+				lista.add(this.actualString);
+				this.actualString ="";
 			}else {
-				lista.add(this.actualS.substring(0,actualOperand));
-				this.actualS=this.actualS.substring(actualOperand);
+				lista.add(this.actualString.substring(0,actualOperand));
+				this.actualString =this.actualString.substring(actualOperand);
 			}
 		}
 		return lista;
 	}
 	public ArrayList<String> getPLuginList(){
-		return  lps.getOperands();
+		return  listOfPluginLoaded.getOperands();
 
 	}
 	public void clear(){

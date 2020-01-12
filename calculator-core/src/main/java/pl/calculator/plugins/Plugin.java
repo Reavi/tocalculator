@@ -37,7 +37,7 @@ public class Plugin implements Observable {
         }
     }
     public void check(){
-        log.info("sprawdzam iloscp luginow");
+        log.info("sprawdzam ilossc luginow");
         File[] files = DirReader.loadFromDirJarFile();
         log.info("Ilosc: "+files.length);
         if(files.length!=number){

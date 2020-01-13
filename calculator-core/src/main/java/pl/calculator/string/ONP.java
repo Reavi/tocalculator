@@ -44,7 +44,7 @@ public class ONP {
             }
         }
         result.append(getAllFromStack());
-        result = new StringBuilder(result.toString().replaceAll(" {2}", " "));
+        result = new StringBuilder(result.toString().replaceAll("  ", " "));
         this.result=result;
     }
     private String getFromStackUntilBracket() {
@@ -70,11 +70,17 @@ public class ONP {
             c = (String) stack.pop();
             while (((operator.equals("+") || operator.equals("-")) && !c.equals("(")) ||
                     ((operator.equals("/") || operator.equals("*")) && (c.equals("/") || c.equals("*")))){
-                result.append(" ").append(c);
-                if (stack.empty()) break;
+                result.append(" ").append(c).append(" ");
+                if (stack.empty()) {
+                    break;
+                }
+
                 c = (String) stack.pop();
+
             }
-            stack.push(c);
+            if(!operator.equals("+") && !operator.equals("-")){
+                stack.push(c);
+            }
         }
         stack.push(operator);
 

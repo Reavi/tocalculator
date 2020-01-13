@@ -36,6 +36,7 @@ public class CalcCore {
 		op.add(new SubFactory().CreateOperation());
 		op.add(new MulFactory().CreateOperation());
 		op.add(new DivFactory().CreateOperation());
+		op.add(new SqrtFactory().CreateOperation());
 		for(Operation o : op){
 			listOfPluginLoaded.addOb(o);
 		}
@@ -77,9 +78,6 @@ public class CalcCore {
 			}
 		}
 		return actualOperand;
-	}
-	private void checkString(String s){
-		new EntryGuard().process(s, listOfPluginLoaded.getOperands());
 	}
 	private void procesString(String s){
 		this.actualString =s;
@@ -132,6 +130,7 @@ public class CalcCore {
 			//checkString(s);
 			ProcessString str=new ProcessString(s,listOfPluginLoaded);
 			this.sum=str.getSum();
+			his.add(s,Double.toString(this.sum));
 			//procesString(s);
 		}catch (IllegalStateException e){
 			log.warn(e.getMessage());

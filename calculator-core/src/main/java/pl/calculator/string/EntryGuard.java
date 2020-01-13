@@ -7,6 +7,7 @@ public class EntryGuard {
 
     public void process(String s, ArrayList<String> list){
         boolean wrong=false;
+        list.add(".");
         for(char c : s.toCharArray()){
             if(!Character.isDigit(c)){
                 //jezeli nie jest liczba

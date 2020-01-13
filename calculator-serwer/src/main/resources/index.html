@@ -24,8 +24,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="calc">
-                            <input id="val" type="text" name="op">
-                            <button type="button" id="oblicz">Policz!</button>
+                            <input class="form-control" style="width:80%;" id="val" type="text" name="op">
+                            <button class="btn btn-primary"  style="width:80%;" type="button" id="oblicz">Policz!</button>
                         </div>
                         <div class="row">
                             <div class="col">
@@ -48,9 +48,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <form id="fileUploadForm" action="/form" ENCTYPE="multipart/form-data" method="POST" name="wibble">
-                        <input id="plugin" type="file" name="myfile" value="Wybierz plik" /><br>
-                        <input id="wy" type="submit" value="Wgraj"/>
+                    <form id="fileUploadForm" class="form-group" action="/form" ENCTYPE="multipart/form-data" method="POST" name="wibble">
+                        <input id="plugin" class="btn btn-secondary" type="file" name="myfile" value="Wybierz plik" /><br>
+                        <input class="btn btn-primary" id="wy" type="submit" value="Wgraj"/>
                     </form>
                 </div>
             </div>

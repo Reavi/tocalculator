@@ -58,7 +58,7 @@ public class CalcCore {
 			this.sum=str.getSum();
 			log.info("wynik: "+this.sum);
 			his.add(s,Double.toString(this.sum));
-		}catch (IllegalStateException e){
+		}catch (IllegalStateException | IllegalArgumentException e){
 			log.warn(e.getMessage());
 			ErrorMessages.addMess("ERROR",e.getMessage());
 		}

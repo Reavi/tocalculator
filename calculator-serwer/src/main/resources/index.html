@@ -9,41 +9,78 @@
 </head>
 <body>
 <div class="container">
-    <div class="title">Kalkulator</div>
-    <div class="calc">
-        <label>Wpisz działanie:</label><br>
-        <input id="val" type="text" name="op">
-        <button type="button" id="oblicz">Policz!</button>
+    <div class="row">
+            <div class="col-sm-7">
+                <div class="row">
+                    <div class="col">
+                        <h1>Kalkulator</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label>Wpisz działanie:</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="calc">
+                            <input id="val" type="text" name="op">
+                            <button type="button" id="oblicz">Policz!</button>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div id="mess"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div id="wynik">Wynik:<label id="wynikResult"></label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+
+                <div class="row">
+                    <div class="col">
+                        <h1>Wgraj swój plugin</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <form id="fileUploadForm" action="/form" ENCTYPE="multipart/form-data" method="POST" name="wibble">
+                        <input id="plugin" type="file" name="myfile" value="Wybierz plik" /><br>
+                        <input id="wy" type="submit" value="Wgraj"/>
+                    </form>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="row">
+                <div class="col">
+                    Historia
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="history">
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="row">
+                <div class="col" >
+                    Obsługiwane znaki
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="pluginy">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-
-<div id="wynik">Wynik: <div id="wynikResult"></div></div>
-<div id="mess"></div>
-
-
-<form id="fileUploadForm" action="/form" ENCTYPE="multipart/form-data" method="POST" name="wibble">
-    choose a file to upload:<input id="plugin" type="file" name="myfile"/><br>
-    <input id="wy" type="submit"/>
-</form>
-<button id="fileUpload">second</button>
-
-<div>
-    <table style="width:100%">
-        <tr>
-            <td>|||</td>
-            <td>Obsługiwane znaki</td>
-            <td>Historia</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td id="pluginy"></td>
-            <td id="history"></td>
-        </tr>
-    </table>
-
-</div>
-
 
 <script>
     $(function () {

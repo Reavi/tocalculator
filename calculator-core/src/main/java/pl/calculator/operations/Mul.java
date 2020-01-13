@@ -9,6 +9,11 @@ public class Mul implements Operation {
     }
 
     @Override
+    public String getDescription() {
+        return "Mnoży dwie liczby. Wzór: liczba*liczba";
+    }
+
+    @Override
     public double action(double a, double... arg) {
         for(double i : arg){
             a*=i;

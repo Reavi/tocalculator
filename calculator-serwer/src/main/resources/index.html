@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
-<body onunload="exit()">
-<div class="calc">
-    Wpisz działanie: <input id="val" type="text" name="op">
-    <br><br>
-    <button type="button" id="oblicz">Oblicz</button>
-
+<body>
+<div class="container">
+    <div class="title">Kalkulator</div>
+    <div class="calc">
+        <label>Wpisz działanie:</label><br>
+        <input id="val" type="text" name="op">
+        <button type="button" id="oblicz">Policz!</button>
+    </div>
 </div>
+
 
 <div id="wynik">Wynik: <div id="wynikResult"></div></div>
 <div id="mess"></div>
@@ -21,7 +24,7 @@
 
 <form id="fileUploadForm" action="/form" ENCTYPE="multipart/form-data" method="POST" name="wibble">
     choose a file to upload:<input id="plugin" type="file" name="myfile"/><br>
-    <input type="submit"/>
+    <input id="wy" type="submit"/>
 </form>
 <button id="fileUpload">second</button>
 
@@ -50,7 +53,6 @@
         });
         getPluginList();
         getHistory();
-
 
     });
 
@@ -90,9 +92,13 @@
     }
     function getPluginList(){
         $.getJSON("/getplugins", function (string) {
+            var obj=JSON.parse(string);
+            console.log(obj);
             var lista=string.split(",");
-            for(var i=0;i<lista.length;i++){
-                $("#pluginy").append("<div>"+lista[i]+"</div>");
+            console.log(lista);
+            console.log(lista.length);
+            for(var i=0;i<lista.length/2;i++){
+                $("#pluginy").append("<div>"+obj[i][0]+" : "+obj[i][1] +"</div>");
             }
 
         })
@@ -102,22 +108,22 @@
         $.getJSON("/gethistory", function (string) {
             console.log(string);
             ciag=string;
+            if(string!=="{}"){
+                var lista=string.split(",");
+                var obj=JSON.parse(string);
+                $("#history").text("");
+                console.log(lista.length);
+                for(var i=0;i<lista.length;i++){
+                    //$("#history").append("<div>"+lista[i]+"</div>");
+                    $("#history").append("<div>"+obj[i][0]+"</div>");
 
-
-
-            var lista=string.split(",");
-            var obj=JSON.parse(string);
-            $("#history").text("");
-            for(var i=0;i<lista.length;i++){
-                //$("#history").append("<div>"+lista[i]+"</div>");
-                $("#history").append("<div>"+obj[i][0]+"</div>");
-
+                }
             }
 
+
+
+
         })
-    }
-    function exit(){
-        $.get("/end");
     }
 </script>
 </body>

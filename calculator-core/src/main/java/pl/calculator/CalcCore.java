@@ -13,6 +13,7 @@ import pl.calculator.string.ProcessString;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CalcCore {
@@ -64,8 +65,8 @@ public class CalcCore {
 		}
 
 	}
-	public ArrayList<String> getPLuginList(){
-		return  listOfPluginLoaded.getOperands();
+	public Map<String,Operation> getPLuginList(){
+		return listOfPluginLoaded.getOb();
 
 	}
 	public void clear(){

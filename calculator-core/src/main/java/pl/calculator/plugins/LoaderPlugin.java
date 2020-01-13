@@ -9,10 +9,12 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.NoSuchFileException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.calculator.repository.messages.ErrorMessages;
 
 public class LoaderPlugin {
     private ArrayList<String> op;
@@ -46,6 +48,27 @@ public class LoaderPlugin {
                     Class<?> cl = urlClassLoader.loadClass(name);
                     Constructor<?> constructor = cl.getConstructor();
                     Operation ic = (Operation) constructor.newInstance();
+                    log.info("Testuje klase");
+                    //PODSTAWOWY TEST
+                    AtomicBoolean good= new AtomicBoolean(true);
+                   Thread thread = new Thread(() -> {
+                       try{
+                           ic.getValidity();
+                           ic.action(1,1);
+                           ic.getDescription();
+                           ic.getSign();
+                       } catch (Throwable e){
+                           log.error("Throwable error:" + e.getMessage() +"\n"+ Arrays.toString(e.getStackTrace()));
+                           log.error("Zla implementacja pluginu");
+                           good.set(false);
+                       }
+                   });
+                   thread.start();
+                   thread.join();
+                   if(!good.get()){
+                       throw new Exception("Niepasujacy plugin!");
+                   }
+                   log.info("Test Pomyślne");
 
                     for(String sign: op){
                         if(sign.equals(ic.getSign())){
@@ -56,7 +79,7 @@ public class LoaderPlugin {
                     log.info("Pomyślnie załadowano klasę z pluginu: "+file.getName());
                     hp.put(ic.getSign(),ic);
                     log.info(", nazwa klasy: "+constructor.getName()+", znak: "+ic.getSign());
-
+                    ErrorMessages.addMess("ERROR","Niepasujący plugin!");
                 }
 
             } catch (NoSuchFileException e){
@@ -68,6 +91,8 @@ public class LoaderPlugin {
                 log.error("IllegalState Exceptio:\n"+e.getMessage());
             } catch (ClassCastException e) {
                 log.error("Znalezlismy niepasujacy plugin, \""+file.getName()+"\" zostanie on pominiety.\n INFO:"+e.getMessage());
+            } catch (Exception e){
+                log.error("Jakis inny blad: "+ Arrays.toString(e.getStackTrace()));
             }
 
         }

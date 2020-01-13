@@ -22,4 +22,9 @@ public class Add implements Operation {
     public int getValidity() {
         return 0;
     }
+
+    @Override
+    public String getDescription() {
+        return "Dodaje dwie liczby. Wzór: liczba+liczba";
+    }
 }

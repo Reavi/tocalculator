@@ -32,8 +32,6 @@ public class ProcessString {
         //DWUARGUMENTOWE WAZNOSC c2
         validity2();
         System.out.println(this.string);
-
-
         //przetworzony string -> onp -> wylicz
         //sprawdzamy wczesniej czy reszta sie zgadza
         new EntryGuard().process(this.string, ppl.getOperands());

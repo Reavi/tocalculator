@@ -9,6 +9,11 @@ public class Sub implements Operation {
     }
 
     @Override
+    public String getDescription() {
+        return "Odejmuje dwie liczby. Wzór: liczba-liczba";
+    }
+
+    @Override
     public double action(double a, double... arg) {
         double suma =a;
         for (double v : arg) {

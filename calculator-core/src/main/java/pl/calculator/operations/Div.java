@@ -9,6 +9,11 @@ public class Div implements Operation {
     }
 
     @Override
+    public String getDescription() {
+        return "Dzieli dwie liczby. Wzór: liczba/liczba";
+    }
+
+    @Override
     public double action(double a, double... arg) {
         for(double i : arg){
             if(i==0){

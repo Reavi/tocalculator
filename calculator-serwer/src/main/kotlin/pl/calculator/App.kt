@@ -42,7 +42,7 @@ fun main(args: Array<String>) {
         it.response()
                 .setStatusCode(200)
                 .putHeader("content-type","appliaction/json; charset=utf-8")
-                .end(Json.encodePrettily(it.session().get<Calculator>("calc").pluginListString))
+                .end(Json.encodePrettily(it.session().get<Calculator>("calc").pluginListStringJson))
     }
     router.get("/getmess").handler {
         it.response()
@@ -79,6 +79,7 @@ fun main(args: Array<String>) {
                 }
 
                 routingContext.reroute("/")
+
             }
 
     router.route("/").handler{

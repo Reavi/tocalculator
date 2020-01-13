@@ -13,7 +13,7 @@ public class Calculator {
     public void processData(String s){
         try{
             ErrorMessages.clear();
-            cal.read2(s);
+            cal.read(s);
         }catch (IllegalArgumentException e){
             System.out.println(e.getMessage());
         }

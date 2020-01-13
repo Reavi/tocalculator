@@ -88,7 +88,7 @@ public class ONP {
     }
     private String getAllFromStack() {
         StringBuilder result = new StringBuilder();
-        String c = null;
+        String c;
         while (!stack.empty()){
             c = (String) stack.pop();
             result.append(" ").append(c);
@@ -99,7 +99,6 @@ public class ONP {
         return this.result.toString();
     }
     private void check(String str){
-        String ss="+-/*().";
         for(char s : str.toCharArray()){
             if(!Character.isDigit(s)){
                 if ((s != '+') &&
@@ -111,9 +110,7 @@ public class ONP {
                         (s != '.')) {
                             //wykryje jakos inny znak
                             throw new IllegalStateException("Nieobsługiwany znak ONP");
-                        } else {
-                    //all is good
-                }
+                        }
             }
 
         }

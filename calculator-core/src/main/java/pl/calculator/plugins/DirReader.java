@@ -15,7 +15,6 @@ public class DirReader {
         String name = s + "/";
 
         path = System.getProperty("user.dir") + "/plugins" + name;
-        System.out.println(path);
         log.info("path ustawiony na: "+path);
         folder = new File(path);
         if (!folder.exists()) {

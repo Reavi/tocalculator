@@ -62,7 +62,7 @@ fun main(args: Array<String>) {
             .handler { routingContext ->
                 log.info("Mamy nowy plik")
                 val fileUploadSet = routingContext.fileUploads()
-                println(fileUploadSet);
+                //println(fileUploadSet);
                 val fileUploadIterator = fileUploadSet.iterator()
                 while (fileUploadIterator.hasNext()) {
                     val fileUpload = fileUploadIterator.next()
@@ -74,7 +74,7 @@ fun main(args: Array<String>) {
                         //File(fileUpload.uploadedFileName()).delete()
 
                     } catch (e: UnsupportedEncodingException) {
-                        e.printStackTrace()
+                        log.error("Error, Kotlin, wgrywanie pluginu: "+e.message+"\n Dokładny:"+e.printStackTrace())
                     }
                 }
 
@@ -94,7 +94,10 @@ fun main(args: Array<String>) {
 
     val server = vertx.createHttpServer()
     server.requestHandler { router.accept(it) }.listen(port) {
-        if (it.succeeded()) println("Server listening at $port")
+        if (it.succeeded()) {
+            println("Server listening at $port")
+            log.info("Server listening at $port")
+        }
         else println(it.cause())
     }
 

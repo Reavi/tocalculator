@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import pl.calculator.CalcCore;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,15 +33,15 @@ public class Plugin implements Observable {
             try {
                 observer.update();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Blad: "+e.getMessage()+"Szczegolowy: "+ Arrays.toString(e.getStackTrace()));
             }
         }
     }
     public void check(){
         log.info("sprawdzam ilossc luginow");
         File[] files = DirReader.loadFromDirJarFile();
-        log.info("Ilosc: "+files.length);
         if(files.length!=number){
+            log.info("Zmieniła się ilość pluginów, ilosc: "+files.length);
             this.number=files.length;
             notifyObservers();
         }

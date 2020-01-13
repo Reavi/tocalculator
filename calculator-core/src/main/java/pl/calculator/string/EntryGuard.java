@@ -2,10 +2,10 @@ package pl.calculator.string;
 
 import java.util.ArrayList;
 
-public class EntryGuard {
-    public EntryGuard() {}
+class EntryGuard {
+    EntryGuard() {}
 
-    public void process(String s, ArrayList<String> list){
+    void process(String s, ArrayList<String> list){
         boolean wrong=false;
         list.add(".");
         for(char c : s.toCharArray()){

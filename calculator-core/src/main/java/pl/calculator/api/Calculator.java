@@ -1,6 +1,8 @@
 package pl.calculator.api;
 
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.calculator.CalcCore;
 import pl.calculator.Operation;
 import pl.calculator.repository.messages.ErrorMessages;
@@ -16,12 +18,13 @@ public class Calculator {
     public Calculator(String s) {
         cal = new CalcCore(s);
     }
+    private static final Logger log = LoggerFactory.getLogger(Calculator.class);
     public void processData(String s){
         try{
             ErrorMessages.clear();
             cal.read(s);
-        }catch (IllegalArgumentException e){
-            System.out.println(e.getMessage());
+        }catch (Exception e){
+            log.info("Niespodziewany blad w CALCULATORZE: "+e.getMessage());
         }
     }
     public Double getResult(){

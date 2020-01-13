@@ -23,16 +23,22 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="calc">
-                            <input class="form-control" style="width:80%;" id="val" type="text" name="op">
-                            <button class="btn btn-primary"  style="width:80%;" type="button" id="oblicz">Policz!</button>
+                        <div class="row">
+                            <div class="col">
+                                <div class="calc">
+                                    <input class="form-control" style="width:80%;" id="val" type="text" name="op">
+                                    <button class="btn btn-primary"  style="width:80%;" type="button" id="oblicz">Policz!</button>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="row">
                             <div class="col">
                                 <div id="mess"></div>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col">
@@ -122,6 +128,7 @@
                 $("#wynikResult").text("");
                 $("#mess").text(result.ERROR);
             }else{
+                $("#mess").text("");
                 getValue();
             }
         });

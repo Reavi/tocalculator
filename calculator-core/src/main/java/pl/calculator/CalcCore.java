@@ -13,7 +13,6 @@ import pl.calculator.string.ProcessString;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CalcCore {
@@ -59,7 +58,7 @@ public class CalcCore {
 			this.sum=str.getSum();
 			log.info("wynik: "+this.sum);
 			his.add(s,Double.toString(this.sum));
-		}catch (IllegalStateException | IllegalArgumentException e){
+		}catch (IllegalStateException | IllegalArgumentException | NullPointerException e ){
 			log.warn(e.getMessage());
 			ErrorMessages.addMess("ERROR",e.getMessage());
 		}

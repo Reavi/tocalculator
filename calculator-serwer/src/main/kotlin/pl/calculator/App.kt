@@ -1,7 +1,6 @@
 package pl.calculator
 
 
-
 import io.vertx.core.Vertx
 import io.vertx.core.json.Json
 import io.vertx.ext.web.Router
@@ -16,8 +15,6 @@ import java.net.URLDecoder
 import java.io.File
 
 
-
-
 fun main(args: Array<String>) {
     val vertx = Vertx.vertx()
     val port = 8000
@@ -28,11 +25,11 @@ fun main(args: Array<String>) {
 
     val log = LoggerFactory.getLogger("App.kt")
 
-    router.get("/calc").handler{
+    router.get("/calc").handler {
         it.session().get<Calculator>("calc").processData(it.request().getParam("op"))
         it.response().end()
     }
-    router.get("/result").handler{
+    router.get("/result").handler {
         it.response()
                 .setStatusCode(200)
                 .putHeader("content-type", "application/json; charset=utf-8")
@@ -41,19 +38,19 @@ fun main(args: Array<String>) {
     router.get("/getplugins").handler {
         it.response()
                 .setStatusCode(200)
-                .putHeader("content-type","appliaction/json; charset=utf-8")
+                .putHeader("content-type", "appliaction/json; charset=utf-8")
                 .end(Json.encodePrettily(it.session().get<Calculator>("calc").pluginListStringJson))
     }
     router.get("/getmess").handler {
         it.response()
                 .setStatusCode(200)
-                .putHeader("content-type","application/json; charset=utf-8")
+                .putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(it.session().get<Calculator>("calc").mess))
     }
     router.get("/gethistory").handler {
         it.response()
                 .setStatusCode(200)
-                .putHeader("content-type","application/json; charset=utf-8")
+                .putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(it.session().get<Calculator>("calc").history))
     }
 
@@ -68,13 +65,13 @@ fun main(args: Array<String>) {
                     val fileUpload = fileUploadIterator.next()
                     try {
                         val fileName = URLDecoder.decode(fileUpload.fileName(), "UTF-8")
-                        val name=routingContext.session().id()
-                        File(fileUpload.uploadedFileName()).renameTo(File("plugins/"+name+"/"+fileName))
+                        val name = routingContext.session().id()
+                        File(fileUpload.uploadedFileName()).renameTo(File("plugins/" + name + "/" + fileName))
                         routingContext.session().get<Calculator>("calc").updateMods()
                         //File(fileUpload.uploadedFileName()).delete()
 
                     } catch (e: UnsupportedEncodingException) {
-                        log.error("Error, Kotlin, wgrywanie pluginu: "+e.message+"\n Dokładny:"+e.printStackTrace())
+                        log.error("Error, Kotlin, wgrywanie pluginu: " + e.message + "\n Dokładny:" + e.printStackTrace())
                     }
                 }
 
@@ -82,10 +79,10 @@ fun main(args: Array<String>) {
 
             }
 
-    router.route("/").handler{
-        if(it.session().isEmpty){
-            val cc=Calculator(it.session().id())
-            it.session().put("calc",cc)
+    router.route("/").handler {
+        if (it.session().isEmpty) {
+            val cc = Calculator(it.session().id())
+            it.session().put("calc", cc)
         }
 
         it.response().sendFile("index.html")
@@ -97,8 +94,10 @@ fun main(args: Array<String>) {
         if (it.succeeded()) {
             println("Server listening at $port")
             log.info("Server listening at $port")
+        } else {
+            println("Serwer nie wstał bo się zmęczył: " + it.cause())
+            log.error("Serwer nie wstał bo się zmęczył: " + it.cause())
         }
-        else println(it.cause())
     }
 
 }

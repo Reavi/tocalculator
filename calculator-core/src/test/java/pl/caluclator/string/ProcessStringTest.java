@@ -9,21 +9,22 @@ import pl.calculator.string.ProcessString;
 import java.util.ArrayList;
 
 public class ProcessStringTest {
-    private PluginList listOfPluginLoaded=new PluginList();
+    private PluginList listOfPluginLoaded = new PluginList();
     private ProcessString ps;
+
     @Test
-    void test(){
+    void test() {
         ArrayList<Operation> op = new ArrayList<>();
         op.add(new AddFactory().CreateOperation());
         op.add(new SubFactory().CreateOperation());
         op.add(new MulFactory().CreateOperation());
         op.add(new DivFactory().CreateOperation());
         op.add(new SqrtFactory().CreateOperation());
-        for(Operation o : op){
+        for (Operation o : op) {
             listOfPluginLoaded.addOb(o);
         }
-        ps=new ProcessString("2+sqrt(9)-4*2",listOfPluginLoaded);
-        System.out.println("wynik: "+ps.getResultString());
+        ps = new ProcessString("2+sqrt(9)-4*2", listOfPluginLoaded);
+        System.out.println("wynik: " + ps.getResultString());
     }
 
 

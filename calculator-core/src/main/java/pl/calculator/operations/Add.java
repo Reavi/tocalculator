@@ -11,7 +11,7 @@ public class Add implements Operation {
 
     @Override
     public double action(double a, double... arg) {
-        double suma=a;
+        double suma = a;
         for (double v : arg) {
             suma += v;
         }

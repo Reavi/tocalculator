@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HistoryJsonFormat {
-    public String getString(HashMap<Integer, ArrayList<String>> history){
+    public String getString(HashMap<Integer, ArrayList<String>> history) {
         return new Gson().toJson(history);
     }
 }

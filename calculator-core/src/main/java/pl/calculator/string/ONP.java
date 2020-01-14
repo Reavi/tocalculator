@@ -3,25 +3,29 @@ package pl.calculator.string;
 import java.util.Stack;
 
 public class ONP {
-    private Stack stack = new Stack();
+    private Stack<String> stack = new Stack<>();
     private StringBuilder result;
-    public ONP(){}
-    public ONP(String string){
+
+    public ONP() {
+    }
+
+    public ONP(String string) {
         this.start(string);
     }
-    public void start(String string){
-        if(string==null || string.equals("")){
+
+    public void start(String string) {
+        if (string == null || string.equals("")) {
             throw new NullPointerException("Puste wyrazenie");
         }
         check(string);
-        string=string.replaceAll(" ","");
+        string = string.replaceAll(" ", "");
         this.process(string);
     }
 
-    private void process(String str){
-        boolean sign=true;
-        StringBuilder result= new StringBuilder();
-        for (int i=0; i<str.length(); i++) {
+    private void process(String str) {
+        boolean sign = true;
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) == '(') {
                 stack.push("(");
                 sign = true;
@@ -45,17 +49,18 @@ public class ONP {
         }
         result.append(getAllFromStack());
         result = new StringBuilder(result.toString().replaceAll("  ", " "));
-        this.result=result;
+        this.result = result;
     }
+
     private String getFromStackUntilBracket() {
         StringBuilder result = new StringBuilder();
-        String c = null;
+        String c;
         if (!stack.empty()) {
-            c = (String) stack.pop();
-            while (!c.equals("(")){
+            c = stack.pop();
+            while (!c.equals("(")) {
                 result.append(" ").append(c);
                 if (stack.empty()) break;
-                c = (String) stack.pop();
+                c = stack.pop();
             }
         }
         if (result.length() > 0) {
@@ -63,22 +68,23 @@ public class ONP {
         }
         return result.toString();
     }
+
     private String getFromStack(String operator) {
         StringBuilder result = new StringBuilder();
         String c;
         if (!stack.empty()) {
-            c = (String) stack.pop();
+            c = stack.pop();
             while (((operator.equals("+") || operator.equals("-")) && !c.equals("(")) ||
-                    ((operator.equals("/") || operator.equals("*")) && (c.equals("/") || c.equals("*")))){
+                    ((operator.equals("/") || operator.equals("*")) && (c.equals("/") || c.equals("*")))) {
                 result.append(" ").append(c).append(" ");
                 if (stack.empty()) {
                     break;
                 }
 
-                c = (String) stack.pop();
+                c = stack.pop();
 
             }
-            if(!operator.equals("+") && !operator.equals("-")){
+            if (!operator.equals("+") && !operator.equals("-")) {
                 stack.push(c);
             }
         }
@@ -86,21 +92,24 @@ public class ONP {
 
         return result.toString();
     }
+
     private String getAllFromStack() {
         StringBuilder result = new StringBuilder();
         String c;
-        while (!stack.empty()){
+        while (!stack.empty()) {
             c = (String) stack.pop();
             result.append(" ").append(c);
         }
         return result.toString();
     }
-    public String getResult(){
+
+    public String getResult() {
         return this.result.toString();
     }
-    private void check(String str){
-        for(char s : str.toCharArray()){
-            if(!Character.isDigit(s)){
+
+    private void check(String str) {
+        for (char s : str.toCharArray()) {
+            if (!Character.isDigit(s)) {
                 if ((s != '+') &&
                         (s != '-') &&
                         (s != '/') &&
@@ -108,9 +117,9 @@ public class ONP {
                         (s != '(') &&
                         (s != ')') &&
                         (s != '.')) {
-                            //wykryje jakos inny znak
-                            throw new IllegalStateException("Nieobsługiwany znak ONP");
-                        }
+                    //wykryje jakos inny znak
+                    throw new IllegalStateException("Nieobsługiwany znak ONP");
+                }
             }
 
         }

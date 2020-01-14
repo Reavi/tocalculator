@@ -15,8 +15,8 @@ public class Mul implements Operation {
 
     @Override
     public double action(double a, double... arg) {
-        for(double i : arg){
-            a*=i;
+        for (double i : arg) {
+            a *= i;
         }
         return a;
     }

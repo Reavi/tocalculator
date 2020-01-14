@@ -13,10 +13,12 @@ public class Plugin implements Observable {
     private Set<Observer> observers = new HashSet<>();
     private static final Logger log = LoggerFactory.getLogger(Plugin.class);
     private int number = 0;
-    public Plugin(Observer lps){
+
+    public Plugin(Observer lps) {
         attach(lps);
         check();
     }
+
     @Override
     public void attach(Observer observer) {
         observers.add(observer);
@@ -28,21 +30,22 @@ public class Plugin implements Observable {
     }
 
     @Override
-    public void notifyObservers()  {
+    public void notifyObservers() {
         for (Observer observer : observers) {
             try {
                 observer.update();
             } catch (Exception e) {
-                log.error("Blad: "+e.getMessage()+"Szczegolowy: "+ Arrays.toString(e.getStackTrace()));
+                log.error("Blad: " + e.getMessage() + "Szczegolowy: " + Arrays.toString(e.getStackTrace()));
             }
         }
     }
-    public void check(){
+
+    public void check() {
         log.info("sprawdzam ilossc luginow");
         File[] files = DirReader.loadFromDirJarFile();
-        if(files.length!=number){
-            log.info("Zmieniła się ilość pluginów, ilosc: "+files.length);
-            this.number=files.length;
+        if (files.length != number) {
+            log.info("Zmieniła się ilość pluginów, ilosc: " + files.length);
+            this.number = files.length;
             notifyObservers();
         }
     }

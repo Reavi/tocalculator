@@ -15,11 +15,11 @@ public class Div implements Operation {
 
     @Override
     public double action(double a, double... arg) {
-        for(double i : arg){
-            if(i==0){
+        for (double i : arg) {
+            if (i == 0) {
                 throw new IllegalArgumentException("Nie dziel przez 0!");
-            }else {
-                a/=i;
+            } else {
+                a /= i;
             }
         }
         return a;

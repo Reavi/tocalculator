@@ -15,41 +15,49 @@ import java.util.Map;
 
 public class Calculator {
     private CalcCore cal;
+
     public Calculator(String s) {
         cal = new CalcCore(s);
     }
+
     private static final Logger log = LoggerFactory.getLogger(Calculator.class);
-    public void processData(String s){
-        try{
+
+    public void processData(String s) {
+        try {
             ErrorMessages.clear();
             cal.read(s);
-        }catch (Exception e){
-            log.info("Niespodziewany blad w CALCULATORZE: "+e.getMessage());
+        } catch (Exception e) {
+            log.info("Niespodziewany blad w CALCULATORZE: " + e.getMessage());
         }
     }
-    public Double getResult(){
+
+    public Double getResult() {
         return cal.result();
     }
-    public void updateMods(){
+
+    public void updateMods() {
         cal.updateMods();
     }
-    public String getPluginListStringJson(){
+
+    public String getPluginListStringJson() {
         Map<String, Operation> ob = cal.getPLuginList();
         Map<Integer, ArrayList<String>> pluginList = new HashMap<>();
-        int count=0;
-        for(Map.Entry<String, Operation> c : ob.entrySet()){
-            ArrayList<String> tmp=new ArrayList<>();
+        int count = 0;
+        for (Map.Entry<String, Operation> c : ob.entrySet()) {
+            ArrayList<String> tmp = new ArrayList<>();
             tmp.add(c.getValue().getSign());
             tmp.add(c.getValue().getDescription());
-            pluginList.put(count,tmp);
+            pluginList.put(count, tmp);
             count++;
         }
         return new Gson().toJson(pluginList);
     }
-    public String getHistory(){
+
+    public String getHistory() {
         return cal.getHistory();
     }
-    public String getMess(){
+
+    public String getMess() {
         return new MessagesJsonFormat().getString();
     }
 }

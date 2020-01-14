@@ -1,9 +1,7 @@
 */target
 target
-*/test
 .idea
 *.iml
-*/*/test
 classes
 *.log
 dependency-reduced-*

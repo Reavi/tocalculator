@@ -10,14 +10,14 @@ import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import org.slf4j.LoggerFactory
 import pl.calculator.api.Calculator
-import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.io.File
+import java.io.UnsupportedEncodingException as UnsupportedEncodingException1
 
 
 fun main(args: Array<String>) {
     val vertx = Vertx.vertx()
-    val port = 8000
+    val port = 8080
     val router = Router.router(vertx)
     router.route().handler(CookieHandler.create())
     router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
@@ -70,7 +70,7 @@ fun main(args: Array<String>) {
                         routingContext.session().get<Calculator>("calc").updateMods()
                         //File(fileUpload.uploadedFileName()).delete()
 
-                    } catch (e: UnsupportedEncodingException) {
+                    } catch (e: UnsupportedEncodingException1) {
                         log.error("Error, Kotlin, wgrywanie pluginu: " + e.message + "\n Dokładny:" + e.printStackTrace())
                     }
                 }

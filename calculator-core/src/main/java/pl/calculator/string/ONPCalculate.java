@@ -35,12 +35,18 @@ public class ONPCalculate {
 
     public void start(String str) {
         str = str.replaceAll("  ", " ");
+        str=str.trim();
         this.onp = str;
         while (!onp.isEmpty()) {
             int index = getIndex();
             String obj;
             if (index != -1) {
-                obj = this.onp.substring(0, index);
+                if(index==0){
+                    obj=this.onp.substring(0,1);
+                }else{
+                    obj = this.onp.substring(0, index);
+                }
+
                 this.onp = this.onp.substring(index + 1);
             } else {
                 //jezeli nie ma spacji no to znaczy ze zostal jeden element i nic nie trzeba zrobic

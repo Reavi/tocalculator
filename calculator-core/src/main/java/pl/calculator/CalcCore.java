@@ -65,6 +65,9 @@ public class CalcCore {
             this.sum = str.getSum();
             log.info("wynik: " + this.sum);
             his.add(s, Double.toString(this.sum));
+        } catch (NumberFormatException e){
+            log.warn("Nieobslugiwany znak");
+            ErrorMessages.addMess("ERROR", "Zbyt skomplikowane wyrażenie, Sorry! Zmęczyłem się :/");
         } catch (IllegalStateException | IllegalArgumentException | NullPointerException e) {
             log.warn(e.getMessage());
             ErrorMessages.addMess("ERROR", e.getMessage());

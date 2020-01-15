@@ -9,3 +9,5 @@ file-uploads
 plugin
 plugins/
 *.log~
+out
+out/*
